@@ -5,6 +5,6 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Version>0.1.0</Version>
     <!-- GitHub owner/repo whose releases carry update.json; empty disables update checks -->
-    <UpdateRepository>MiKoF/ModpackManager</UpdateRepository>
+    <UpdateRepository>MiHow-c/ModpackManager</UpdateRepository>
   </PropertyGroup>
 </Project>

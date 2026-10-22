@@ -69,7 +69,7 @@ Zakładka **Pliki i configi** to edytor z numeracją wierszy, kolorowaniem skła
 
 ## Aktualizacje aplikacji
 
-Przy starcie aplikacja sprawdza najnowsze wydanie na GitHubie (repozytorium z `UpdateRepository` w `Directory.Build.props`, domyślnie `MiKoF/ModpackManager`). Gdy jest nowsza wersja, pokazuje pasek **Dostępna nowa wersja** — nic nie instaluje się bez kliknięcia **Zainstaluj i uruchom ponownie**. Paczka jest sprawdzana sumą SHA-256, a jeśli podmiana plików się nie uda, przywracana jest poprzednia wersja. Zmienna `MPM_UPDATE_URL` pozwala wskazać inny plik `update.json`.
+Przy starcie aplikacja sprawdza najnowsze wydanie na GitHubie (repozytorium z `UpdateRepository` w `Directory.Build.props`, domyślnie `MiHow-c/ModpackManager`). Gdy jest nowsza wersja, pokazuje pasek **Dostępna nowa wersja** — nic nie instaluje się bez kliknięcia **Zainstaluj i uruchom ponownie**. Paczka jest sprawdzana sumą SHA-256, a jeśli podmiana plików się nie uda, przywracana jest poprzednia wersja. Zmienna `MPM_UPDATE_URL` pozwala wskazać inny plik `update.json`.
 
 Repozytorium (albo przynajmniej jego wydania) musi być publiczne, bo aplikacja pobiera pliki bez logowania.
 
