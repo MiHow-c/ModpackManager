@@ -1,0 +1,71 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:ModpackManager.App.ViewModels"
+             xmlns:res="using:ModpackManager.App.Resources"
+             xmlns:ic="using:FluentIcons.Avalonia"
+             x:Class="ModpackManager.App.Views.Pages.FilesPage"
+             x:DataType="vm:MainViewModel">
+    <DockPanel Margin="24,20,24,16">
+        <StackPanel DockPanel.Dock="Top" Margin="0,0,0,16">
+            <TextBlock Classes="pageTitle" Text="{x:Static res:Strings.TabFiles}" />
+            <TextBlock Classes="caption" Text="{x:Static res:Strings.FilesSubtitle}" Margin="0,2,0,0" />
+        </StackPanel>
+
+        <Grid ColumnDefinitions="340,16,*">
+            <Border Classes="card" Padding="8">
+                <DockPanel>
+                    <StackPanel DockPanel.Dock="Bottom" Spacing="8" Margin="8,12,8,8">
+                        <TextBlock Classes="label" Text="{x:Static res:Strings.TargetFolder}" Margin="0" />
+                        <TextBox Text="{Binding NewFileFolder}" AutomationProperties.Name="{x:Static res:Strings.TargetFolder}" />
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <Button Click="OnAddFileClick" AutomationProperties.Name="{x:Static res:Strings.AddFile}">
+                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                    <ic:SymbolIcon Symbol="DocumentAdd" FontSize="16" />
+                                    <TextBlock Text="{x:Static res:Strings.AddFile}" />
+                                </StackPanel>
+                            </Button>
+                            <Button Command="{Binding DeleteSelectedFileCommand}" AutomationProperties.Name="{x:Static res:Strings.DeleteFile}">
+                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                    <ic:SymbolIcon Symbol="Delete" FontSize="16" />
+                                    <TextBlock Text="{x:Static res:Strings.DeleteFile}" />
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </StackPanel>
+                    <ListBox ItemsSource="{Binding Files}" SelectedItem="{Binding SelectedFile}" Background="Transparent"
+                             AutomationProperties.Name="{x:Static res:Strings.FilesListName}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate x:DataType="x:String">
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <ic:SymbolIcon Symbol="DocumentText" FontSize="16" Foreground="{DynamicResource App.TextSecondary}" />
+                                    <TextBlock Text="{Binding}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </DockPanel>
+            </Border>
+
+            <Border Grid.Column="2" Classes="card" Padding="0">
+                <DockPanel>
+                    <Border DockPanel.Dock="Top" BorderBrush="{DynamicResource App.Border}" BorderThickness="0,0,0,1" Padding="16,10">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <TextBlock Text="{Binding SelectedFile}" FontWeight="SemiBold" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"
+                                       IsVisible="{Binding SelectedFile, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                            <TextBlock Classes="caption" Text="{x:Static res:Strings.NoFileSelected}" VerticalAlignment="Center"
+                                       IsVisible="{Binding SelectedFile, Converter={x:Static ObjectConverters.IsNull}}" />
+                            <Button Grid.Column="1" Classes="accent" Command="{Binding SaveFileCommand}" AutomationProperties.Name="{x:Static res:Strings.SaveFile}">
+                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                    <ic:SymbolIcon Symbol="Save" FontSize="16" />
+                                    <TextBlock Text="{x:Static res:Strings.SaveFile}" />
+                                </StackPanel>
+                            </Button>
+                        </Grid>
+                    </Border>
+                    <TextBox Classes="code" Margin="12" Text="{Binding EditorText}" IsReadOnly="{Binding !CanEditFile}"
+                             AutomationProperties.Name="{x:Static res:Strings.EditorName}" />
+                </DockPanel>
+            </Border>
+        </Grid>
+    </DockPanel>
+</UserControl>

@@ -231,6 +231,7 @@ public sealed partial class UserRow(HostUser user, HostAccess access, Action cha
 public sealed class DiffRow(DiffItem item)
 {
     public string Kind => Strings.ResourceManager.GetString($"Diff{item.Kind}", Strings.Culture) ?? item.Kind.ToString();
+    public DiffKind KindValue => item.Kind;
     public string Path => item.Path;
     public string HostVersion => Describe(item.Host);
     public string LocalVersion => Describe(item.Local);

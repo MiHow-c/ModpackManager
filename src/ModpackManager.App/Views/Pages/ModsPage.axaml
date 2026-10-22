@@ -1,0 +1,164 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:ModpackManager.App.ViewModels"
+             xmlns:v="using:ModpackManager.App.Views"
+             xmlns:res="using:ModpackManager.App.Resources"
+             xmlns:src="using:ModpackManager.Core.Sources"
+             xmlns:core="using:ModpackManager.Core"
+             xmlns:ic="using:FluentIcons.Avalonia"
+             x:Class="ModpackManager.App.Views.Pages.ModsPage"
+             x:DataType="vm:MainViewModel">
+    <DockPanel Margin="24,20,24,16">
+        <Grid DockPanel.Dock="Top" ColumnDefinitions="*,Auto" Margin="0,0,0,16">
+            <StackPanel>
+                <TextBlock Classes="pageTitle" Text="{x:Static res:Strings.TabMods}" />
+                <TextBlock Classes="caption" Text="{x:Static res:Strings.ModsSubtitle}" Margin="0,2,0,0" />
+            </StackPanel>
+            <CheckBox Grid.Column="1" VerticalAlignment="Bottom" Content="{x:Static res:Strings.OnlyUnknown}" IsChecked="{Binding OnlyUnknown}" />
+        </Grid>
+
+        <Grid ColumnDefinitions="*,16,360">
+            <DockPanel>
+                <Border DockPanel.Dock="Top" Classes="card" Padding="8" Margin="0,0,0,12">
+                    <WrapPanel>
+                        <Button Command="{Binding RemoveModCommand}" Margin="0,0,8,0" AutomationProperties.Name="{x:Static res:Strings.RemoveMod}">
+                            <StackPanel Orientation="Horizontal" Spacing="6">
+                                <ic:SymbolIcon Symbol="Delete" FontSize="16" />
+                                <TextBlock Text="{x:Static res:Strings.RemoveMod}" />
+                            </StackPanel>
+                        </Button>
+                        <Border Width="1" Height="24" Margin="4,0,12,0" Background="{DynamicResource App.Border}" />
+                        <Button Command="{Binding LoadModVersionsCommand}" Margin="0,0,8,0" AutomationProperties.Name="{x:Static res:Strings.LoadVersions}">
+                            <StackPanel Orientation="Horizontal" Spacing="6">
+                                <ic:SymbolIcon Symbol="History" FontSize="16" />
+                                <TextBlock Text="{x:Static res:Strings.LoadVersions}" />
+                            </StackPanel>
+                        </Button>
+                        <ComboBox ItemsSource="{Binding ModVersions}" SelectedItem="{Binding SelectedModVersion}" MinWidth="180" Margin="0,0,8,0"
+                                  AutomationProperties.Name="{x:Static res:Strings.ModVersionsName}"
+                                  PlaceholderText="{x:Static res:Strings.VersionPlaceholder}" />
+                        <Button Command="{Binding UpdateModCommand}" AutomationProperties.Name="{x:Static res:Strings.ChangeVersion}">
+                            <StackPanel Orientation="Horizontal" Spacing="6">
+                                <ic:SymbolIcon Symbol="ArrowSwap" FontSize="16" />
+                                <TextBlock Text="{x:Static res:Strings.ChangeVersion}" />
+                            </StackPanel>
+                        </Button>
+                    </WrapPanel>
+                </Border>
+
+                <Border DockPanel.Dock="Bottom" Classes="card" Padding="8" Margin="0,12,0,0">
+                    <Grid ColumnDefinitions="Auto,*,Auto">
+                        <ic:SymbolIcon Symbol="Link" FontSize="16" Margin="4,0,8,0" Foreground="{DynamicResource App.TextSecondary}" />
+                        <TextBox Grid.Column="1" Text="{Binding ManualLink}" PlaceholderText="{x:Static res:Strings.ManualLinkPlaceholder}"
+                                 AutomationProperties.Name="{x:Static res:Strings.ManualLinkPlaceholder}" />
+                        <Button Grid.Column="2" Margin="8,0,0,0" Content="{x:Static res:Strings.AssignLink}" Command="{Binding AssignLinkCommand}" />
+                    </Grid>
+                </Border>
+
+                <Border Classes="card" Padding="0" ClipToBounds="True">
+                    <DataGrid ItemsSource="{Binding Rows}" SelectedItem="{Binding SelectedRow}"
+                              AutomationProperties.Name="{x:Static res:Strings.ModsTableName}"
+                              IsReadOnly="True" AutoGenerateColumns="False" CanUserSortColumns="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn x:DataType="vm:EntryRow" Header="{x:Static res:Strings.ColName}" Binding="{Binding Name}" FontWeight="SemiBold" Width="1.5*" MinWidth="140" />
+                            <DataGridTextColumn x:DataType="vm:EntryRow" Header="{x:Static res:Strings.ColVersion}" Binding="{Binding Version}" Width="*" MinWidth="90" />
+                            <DataGridTemplateColumn Header="{x:Static res:Strings.ColLoader}" SortMemberPath="Loaders" Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate x:DataType="vm:EntryRow">
+                                        <Panel Margin="12,0">
+                                            <TextBlock Text="—" VerticalAlignment="Center" Foreground="{DynamicResource App.TextSecondary}"
+                                                       IsVisible="{Binding Entry.Mod, Converter={x:Static ObjectConverters.IsNull}}" />
+                                            <ItemsControl ItemsSource="{Binding LoaderList}" VerticalAlignment="Center">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <StackPanel Orientation="Horizontal" Spacing="10" />
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate x:DataType="core:Loader">
+                                                        <StackPanel Orientation="Horizontal" Spacing="6">
+                                                            <Image Width="16" Height="16" Source="{Binding Converter={x:Static v:Ui.LoaderIcon}}" />
+                                                            <TextBlock Text="{Binding}" VerticalAlignment="Center" />
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </Panel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="{x:Static res:Strings.ColSource}" Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate x:DataType="vm:EntryRow">
+                                        <HyperlinkButton Content="{Binding LinkText}" NavigateUri="{Binding Link}" Margin="4,0" VerticalAlignment="Center"
+                                                         IsVisible="{Binding Link, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="{x:Static res:Strings.ColStatus}" SortMemberPath="Status" Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate x:DataType="vm:EntryRow">
+                                        <Border Classes="badge" Margin="12,0" Background="{Binding Source, Converter={x:Static v:Ui.BadgeBackground}}">
+                                            <StackPanel Orientation="Horizontal" Spacing="4">
+                                                <ic:SymbolIcon Symbol="{Binding Source, Converter={x:Static v:Ui.BadgeSymbol}}" FontSize="14"
+                                                               Foreground="{Binding Source, Converter={x:Static v:Ui.BadgeForeground}}" />
+                                                <TextBlock Text="{Binding Status}" Foreground="{Binding Source, Converter={x:Static v:Ui.BadgeForeground}}" />
+                                            </StackPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn x:DataType="vm:EntryRow" Header="{x:Static res:Strings.ColPath}" Binding="{Binding Path}" Width="*"
+                                                Foreground="{DynamicResource App.TextSecondary}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Border>
+            </DockPanel>
+
+            <Border Grid.Column="2" Classes="card">
+                <DockPanel>
+                    <StackPanel DockPanel.Dock="Top" Margin="0,0,0,12">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <ic:SymbolIcon Symbol="Search" FontSize="18" Foreground="{DynamicResource App.Accent}" />
+                            <TextBlock Classes="section" Text="{x:Static res:Strings.SearchHeader}" />
+                        </StackPanel>
+                        <TextBlock Classes="caption" Text="{x:Static res:Strings.SearchFilterHint}" Margin="0,4,0,0" />
+                    </StackPanel>
+                    <Grid DockPanel.Dock="Top" ColumnDefinitions="*,Auto" Margin="0,0,0,12">
+                        <TextBox Text="{Binding SearchQuery}" PlaceholderText="{x:Static res:Strings.SearchPlaceholder}"
+                                 AutomationProperties.Name="{x:Static res:Strings.SearchPlaceholder}" />
+                        <Button Grid.Column="1" Margin="8,0,0,0" Content="{x:Static res:Strings.Search}" Command="{Binding SearchCommand}" IsDefault="True" />
+                    </Grid>
+                    <Button DockPanel.Dock="Bottom" Classes="accent" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="0,8,0,0"
+                            Command="{Binding AddModCommand}" AutomationProperties.Name="{x:Static res:Strings.AddSelectedVersion}">
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <ic:SymbolIcon Symbol="Add" FontSize="16" />
+                            <TextBlock Text="{x:Static res:Strings.AddSelectedVersion}" />
+                        </StackPanel>
+                    </Button>
+                    <ComboBox DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" Margin="0,12,0,0"
+                              ItemsSource="{Binding HitVersions}" SelectedItem="{Binding SelectedHitVersion}"
+                              AutomationProperties.Name="{x:Static res:Strings.HitVersionsName}"
+                              PlaceholderText="{x:Static res:Strings.VersionPlaceholder}" />
+                    <Panel>
+                        <ListBox ItemsSource="{Binding SearchHits}" SelectedItem="{Binding SelectedHit}" Background="Transparent"
+                                 AutomationProperties.Name="{x:Static res:Strings.SearchResultsName}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate x:DataType="src:ModrinthSearchHit">
+                                    <StackPanel Spacing="2" Margin="0,2">
+                                        <TextBlock Text="{Binding Title}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+                                        <TextBlock Classes="caption" Text="{Binding Description}" MaxLines="2" TextTrimming="CharacterEllipsis" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <StackPanel IsVisible="{Binding !SearchHits.Count}" Spacing="8" HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="240">
+                            <ic:SymbolIcon Symbol="PuzzlePiece" FontSize="32" Foreground="{DynamicResource App.TextSecondary}" HorizontalAlignment="Center" />
+                            <TextBlock Classes="caption" Text="{x:Static res:Strings.SearchEmpty}" TextAlignment="Center" />
+                        </StackPanel>
+                    </Panel>
+                </DockPanel>
+            </Border>
+        </Grid>
+    </DockPanel>
+</UserControl>

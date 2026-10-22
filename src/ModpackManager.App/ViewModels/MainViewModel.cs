@@ -19,7 +19,13 @@ public sealed partial class MainViewModel(AppPaths paths, ModrinthClient modrint
 
     public ObservableCollection<EntryRow> Rows { get; } = [];
 
-    [ObservableProperty] public partial string PackSummary { get; set; } = Strings.NoPack;
+    [ObservableProperty] public partial string PackName { get; set; } = "";
+
+    [ObservableProperty] public partial string PackDetails { get; set; } = "";
+
+    [ObservableProperty] public partial Loader? PackLoader { get; set; }
+
+    [ObservableProperty] public partial string PackLoaderText { get; set; } = "";
 
     [ObservableProperty] public partial string Status { get; set; } = "";
 
@@ -55,9 +61,11 @@ public sealed partial class MainViewModel(AppPaths paths, ModrinthClient modrint
         _info = info;
         _all = manifest.Entries.ToList();
         if (!IsConnected) _baseRevision = manifest.Revision;
-        PackSummary = string.Format(Strings.PackSummary, info.Name,
-            info.Format == PackFormat.Packwiz ? Strings.FormatPackwiz : Strings.FormatFolder,
-            info.McVersion ?? Strings.NotSet, info.Loader?.ToString() ?? Strings.NotSet, info.LoaderVersion);
+        PackName = info.Name;
+        PackDetails = string.Format(Strings.PackDetails,
+            info.Format == PackFormat.Packwiz ? Strings.FormatPackwiz : Strings.FormatFolder, info.McVersion ?? Strings.NotSet);
+        PackLoader = info.Loader;
+        PackLoaderText = info.Loader is { } loader ? $"{loader} {info.LoaderVersion}".TrimEnd() : Strings.NoLoader;
         LoadSettingsInputs(info);
         RefreshRows();
         RefreshFiles();
@@ -160,6 +168,8 @@ public sealed class EntryRow(PackEntry entry)
     public string Name => entry.Name;
     public string Version => entry.Mod?.Version ?? System.IO.Path.GetFileName(entry.Path);
     public string Loaders => entry.Mod is { } mod ? string.Join(", ", mod.Loaders) : Strings.NotSet;
+    public IReadOnlyList<Loader> LoaderList => entry.Mod?.Loaders ?? [];
+    public SourceKind Source => entry.Source;
     public Uri? Link => Uri.TryCreate(entry.Url, UriKind.Absolute, out var uri) ? uri : null;
     public string LinkText => Link?.Host ?? "";
     public string Path => entry.Path;

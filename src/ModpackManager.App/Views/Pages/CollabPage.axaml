@@ -1,0 +1,169 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:ModpackManager.App.ViewModels"
+             xmlns:v="using:ModpackManager.App.Views"
+             xmlns:res="using:ModpackManager.App.Resources"
+             xmlns:ic="using:FluentIcons.Avalonia"
+             x:Class="ModpackManager.App.Views.Pages.CollabPage"
+             x:DataType="vm:MainViewModel">
+    <DockPanel Margin="24,20,24,16">
+        <StackPanel DockPanel.Dock="Top" Margin="0,0,0,16">
+            <TextBlock Classes="pageTitle" Text="{x:Static res:Strings.TabCollab}" />
+            <TextBlock Classes="caption" Text="{x:Static res:Strings.CollabSubtitle}" Margin="0,2,0,0" />
+        </StackPanel>
+
+        <Grid ColumnDefinitions="*,16,*">
+            <Border Classes="card" Padding="0">
+                <ScrollViewer>
+                    <StackPanel Spacing="12" Margin="20">
+                        <Grid ColumnDefinitions="Auto,*,Auto">
+                            <ic:SymbolIcon Symbol="Server" FontSize="20" Foreground="{DynamicResource App.Accent}" Margin="0,0,8,0" />
+                            <TextBlock Grid.Column="1" Classes="section" Text="{x:Static res:Strings.HostHeader}" VerticalAlignment="Center" />
+                            <Border Grid.Column="2" Classes="badge" Background="{DynamicResource Badge.Success.Background}" IsVisible="{Binding IsHosting}">
+                                <TextBlock Text="{x:Static res:Strings.HostActiveChip}" Foreground="{DynamicResource Badge.Success.Foreground}" />
+                            </Border>
+                        </Grid>
+                        <Grid ColumnDefinitions="160,12,*">
+                            <StackPanel>
+                                <TextBlock Classes="label" Text="{x:Static res:Strings.HostPort}" TextTrimming="CharacterEllipsis" ToolTip.Tip="{x:Static res:Strings.HostPort}" />
+                                <TextBox Text="{Binding HostPort}" AutomationProperties.Name="{x:Static res:Strings.HostPort}" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="2">
+                                <TextBlock Classes="label" Text="{x:Static res:Strings.PublicAddress}" TextTrimming="CharacterEllipsis" />
+                                <TextBox Text="{Binding PublicAddress}" AutomationProperties.Name="{x:Static res:Strings.PublicAddress}" />
+                            </StackPanel>
+                        </Grid>
+                        <WrapPanel>
+                            <Button Classes="accent" Command="{Binding StartHostCommand}" Margin="0,0,8,8" AutomationProperties.Name="{x:Static res:Strings.StartHost}">
+                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                    <ic:SymbolIcon Symbol="Play" FontSize="16" />
+                                    <TextBlock Text="{x:Static res:Strings.StartHost}" />
+                                </StackPanel>
+                            </Button>
+                            <Button Command="{Binding StopHostCommand}" Margin="0,0,8,8" AutomationProperties.Name="{x:Static res:Strings.StopHost}">
+                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                    <ic:SymbolIcon Symbol="Stop" FontSize="16" />
+                                    <TextBlock Text="{x:Static res:Strings.StopHost}" />
+                                </StackPanel>
+                            </Button>
+                            <Button Command="{Binding CreateInviteCommand}" Margin="0,0,8,8" AutomationProperties.Name="{x:Static res:Strings.CreateInvite}">
+                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                    <ic:SymbolIcon Symbol="PersonAdd" FontSize="16" />
+                                    <TextBlock Text="{x:Static res:Strings.CreateInvite}" />
+                                </StackPanel>
+                            </Button>
+                        </WrapPanel>
+                        <SelectableTextBlock Classes="caption" Text="{Binding HostInfo}" FontSize="12" TextWrapping="Wrap" />
+                        <StackPanel>
+                            <TextBlock Classes="label" Text="{x:Static res:Strings.InviteCodeLabel}" />
+                            <TextBox Text="{Binding InviteText}" IsReadOnly="True" TextWrapping="Wrap" Classes="code"
+                                     AutomationProperties.Name="{x:Static res:Strings.InviteCodeLabel}" />
+                        </StackPanel>
+
+                        <Border BorderBrush="{DynamicResource App.Border}" BorderThickness="0,1,0,0" Margin="0,4,0,0" Padding="0,12,0,0">
+                            <Grid ColumnDefinitions="Auto,*,Auto">
+                                <ic:SymbolIcon Symbol="PeopleTeam" FontSize="18" Foreground="{DynamicResource App.TextSecondary}" Margin="0,0,8,0" />
+                                <TextBlock Grid.Column="1" Text="{x:Static res:Strings.UsersHeader}" FontWeight="SemiBold" VerticalAlignment="Center" TextWrapping="Wrap" />
+                                <Button Grid.Column="2" Command="{Binding RefreshUsersCommand}" AutomationProperties.Name="{x:Static res:Strings.RefreshUsers}"
+                                        ToolTip.Tip="{x:Static res:Strings.RefreshUsers}">
+                                    <ic:SymbolIcon Symbol="ArrowSync" FontSize="16" />
+                                </Button>
+                            </Grid>
+                        </Border>
+                        <ItemsControl ItemsSource="{Binding Users}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="vm:UserRow">
+                                    <Border Background="{DynamicResource App.Background}" CornerRadius="6" Padding="12,8" Margin="0,0,0,8">
+                                        <StackPanel Spacing="6">
+                                            <Grid ColumnDefinitions="Auto,*,Auto">
+                                                <ic:SymbolIcon Symbol="Person" FontSize="16" Margin="0,0,8,0" />
+                                                <TextBlock Grid.Column="1" Text="{Binding Name}" FontWeight="SemiBold" VerticalAlignment="Center" />
+                                                <Button Grid.Column="2" Content="{x:Static res:Strings.Revoke}" Command="{Binding RevokeCommand}" />
+                                            </Grid>
+                                            <WrapPanel>
+                                                <CheckBox Content="{x:Static res:Strings.PermModsAdd}" IsChecked="{Binding ModsAdd}" Margin="0,0,16,0" />
+                                                <CheckBox Content="{x:Static res:Strings.PermModsRemove}" IsChecked="{Binding ModsRemove}" Margin="0,0,16,0" />
+                                                <CheckBox Content="{x:Static res:Strings.PermModsUpdate}" IsChecked="{Binding ModsUpdate}" Margin="0,0,16,0" />
+                                                <CheckBox Content="{x:Static res:Strings.PermConfigsEdit}" IsChecked="{Binding ConfigsEdit}" Margin="0,0,16,0" />
+                                                <CheckBox Content="{x:Static res:Strings.PermFilesManage}" IsChecked="{Binding FilesManage}" Margin="0,0,16,0" />
+                                                <CheckBox Content="{x:Static res:Strings.PermPackSettings}" IsChecked="{Binding PackSettings}" />
+                                            </WrapPanel>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+
+            <Border Grid.Column="2" Classes="card" Padding="20">
+                <DockPanel>
+                    <StackPanel DockPanel.Dock="Top" Spacing="12">
+                        <Grid ColumnDefinitions="Auto,*,Auto">
+                            <ic:SymbolIcon Symbol="PlugConnected" FontSize="20" Foreground="{DynamicResource App.Accent}" Margin="0,0,8,0" />
+                            <TextBlock Grid.Column="1" Classes="section" Text="{x:Static res:Strings.ClientHeader}" VerticalAlignment="Center" />
+                            <Border Grid.Column="2" Classes="badge" Background="{DynamicResource Badge.Success.Background}" IsVisible="{Binding IsConnected}">
+                                <TextBlock Text="{x:Static res:Strings.ConnectedChip}" Foreground="{DynamicResource Badge.Success.Foreground}" />
+                            </Border>
+                        </Grid>
+                        <StackPanel>
+                            <TextBlock Classes="label" Text="{x:Static res:Strings.InviteCodeLabel}" />
+                            <TextBox Text="{Binding JoinCode}" TextWrapping="Wrap" Classes="code" AutomationProperties.Name="{x:Static res:Strings.JoinCodeName}" />
+                        </StackPanel>
+                        <StackPanel>
+                            <TextBlock Classes="label" Text="{x:Static res:Strings.YourName}" />
+                            <TextBox Text="{Binding UserName}" AutomationProperties.Name="{x:Static res:Strings.YourName}" />
+                        </StackPanel>
+                        <WrapPanel>
+                            <Button Classes="accent" Command="{Binding JoinCommand}" Margin="0,0,8,8" AutomationProperties.Name="{x:Static res:Strings.Join}">
+                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                    <ic:SymbolIcon Symbol="PlugConnected" FontSize="16" />
+                                    <TextBlock Text="{x:Static res:Strings.Join}" />
+                                </StackPanel>
+                            </Button>
+                            <Button Content="{x:Static res:Strings.Reconnect}" Command="{Binding ReconnectCommand}" Margin="0,0,8,8" />
+                            <Button Content="{x:Static res:Strings.Disconnect}" Command="{Binding DisconnectCommand}" Margin="0,0,8,8" />
+                            <Button Command="{Binding CompareCommand}" Margin="0,0,8,8" AutomationProperties.Name="{x:Static res:Strings.Compare}">
+                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                    <ic:SymbolIcon Symbol="ArrowSwap" FontSize="16" />
+                                    <TextBlock Text="{x:Static res:Strings.Compare}" />
+                                </StackPanel>
+                            </Button>
+                            <Button Classes="accent" Command="{Binding PullCommand}" Margin="0,0,8,8" AutomationProperties.Name="{x:Static res:Strings.Pull}">
+                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                    <ic:SymbolIcon Symbol="ArrowDownload" FontSize="16" />
+                                    <TextBlock Text="{x:Static res:Strings.Pull}" />
+                                </StackPanel>
+                            </Button>
+                        </WrapPanel>
+                        <TextBlock Classes="caption" Text="{Binding ConnectionInfo}" />
+                    </StackPanel>
+                    <Border Margin="0,16,0,0" BorderBrush="{DynamicResource App.Border}" BorderThickness="1" CornerRadius="6" ClipToBounds="True">
+                        <DataGrid ItemsSource="{Binding DiffRows}" IsReadOnly="True" AutoGenerateColumns="False"
+                                  AutomationProperties.Name="{x:Static res:Strings.CollabName}">
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn Header="{x:Static res:Strings.ColKind}" SortMemberPath="Kind" Width="Auto">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate x:DataType="vm:DiffRow">
+                                            <Border Classes="badge" Margin="12,0" Background="{Binding KindValue, Converter={x:Static v:Ui.BadgeBackground}}">
+                                                <StackPanel Orientation="Horizontal" Spacing="4">
+                                                    <ic:SymbolIcon Symbol="{Binding KindValue, Converter={x:Static v:Ui.BadgeSymbol}}" FontSize="14"
+                                                                   Foreground="{Binding KindValue, Converter={x:Static v:Ui.BadgeForeground}}" />
+                                                    <TextBlock Text="{Binding Kind}" Foreground="{Binding KindValue, Converter={x:Static v:Ui.BadgeForeground}}" />
+                                                </StackPanel>
+                                            </Border>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn x:DataType="vm:DiffRow" Header="{x:Static res:Strings.ColPath}" Binding="{Binding Path}" Width="2*" />
+                                <DataGridTextColumn x:DataType="vm:DiffRow" Header="{x:Static res:Strings.ColHost}" Binding="{Binding HostVersion}" Width="*" />
+                                <DataGridTextColumn x:DataType="vm:DiffRow" Header="{x:Static res:Strings.ColLocal}" Binding="{Binding LocalVersion}" Width="*" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Border>
+                </DockPanel>
+            </Border>
+        </Grid>
+    </DockPanel>
+</UserControl>

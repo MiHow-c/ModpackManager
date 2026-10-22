@@ -1,0 +1,164 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Styles.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light">
+                    <SolidColorBrush x:Key="App.Background" Color="#F5F6F8" />
+                    <SolidColorBrush x:Key="App.Sidebar" Color="#ECEEF1" />
+                    <SolidColorBrush x:Key="App.Surface" Color="#FFFFFF" />
+                    <SolidColorBrush x:Key="App.Border" Color="#DDE1E6" />
+                    <SolidColorBrush x:Key="App.TextSecondary" Color="#5F6B78" />
+                    <SolidColorBrush x:Key="App.Accent" Color="#1E8A5C" />
+                    <SolidColorBrush x:Key="App.AccentSubtle" Color="#DDF1E7" />
+                    <SolidColorBrush x:Key="Badge.Success.Background" Color="#E3F6EA" />
+                    <SolidColorBrush x:Key="Badge.Success.Foreground" Color="#16794A" />
+                    <SolidColorBrush x:Key="Badge.Orange.Background" Color="#FDEBDC" />
+                    <SolidColorBrush x:Key="Badge.Orange.Foreground" Color="#B4541A" />
+                    <SolidColorBrush x:Key="Badge.Info.Background" Color="#E1EDFC" />
+                    <SolidColorBrush x:Key="Badge.Info.Foreground" Color="#1D5FB8" />
+                    <SolidColorBrush x:Key="Badge.Neutral.Background" Color="#ECEEF1" />
+                    <SolidColorBrush x:Key="Badge.Neutral.Foreground" Color="#4B5563" />
+                    <SolidColorBrush x:Key="Badge.Warning.Background" Color="#FCF2D5" />
+                    <SolidColorBrush x:Key="Badge.Warning.Foreground" Color="#8A6100" />
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark">
+                    <SolidColorBrush x:Key="App.Background" Color="#111418" />
+                    <SolidColorBrush x:Key="App.Sidebar" Color="#161A1F" />
+                    <SolidColorBrush x:Key="App.Surface" Color="#1B2027" />
+                    <SolidColorBrush x:Key="App.Border" Color="#2A313A" />
+                    <SolidColorBrush x:Key="App.TextSecondary" Color="#9AA4AF" />
+                    <SolidColorBrush x:Key="App.Accent" Color="#2BB673" />
+                    <SolidColorBrush x:Key="App.AccentSubtle" Color="#1A3328" />
+                    <SolidColorBrush x:Key="Badge.Success.Background" Color="#1C3A2B" />
+                    <SolidColorBrush x:Key="Badge.Success.Foreground" Color="#5EE09A" />
+                    <SolidColorBrush x:Key="Badge.Orange.Background" Color="#3D2A1A" />
+                    <SolidColorBrush x:Key="Badge.Orange.Foreground" Color="#FB9A52" />
+                    <SolidColorBrush x:Key="Badge.Info.Background" Color="#1C2E45" />
+                    <SolidColorBrush x:Key="Badge.Info.Foreground" Color="#73B0FA" />
+                    <SolidColorBrush x:Key="Badge.Neutral.Background" Color="#2A2F37" />
+                    <SolidColorBrush x:Key="Badge.Neutral.Foreground" Color="#C3CAD3" />
+                    <SolidColorBrush x:Key="Badge.Warning.Background" Color="#3B3317" />
+                    <SolidColorBrush x:Key="Badge.Warning.Foreground" Color="#F5CD47" />
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+
+            <!-- Stylized loader marks (16x16, not the official logos); the transparent square keeps every icon the same size -->
+            <DrawingImage x:Key="LoaderIcon.Forge">
+                <DrawingGroup>
+                    <GeometryDrawing Brush="Transparent" Geometry="M0,0 H16 V16 H0 Z" />
+                    <GeometryDrawing Brush="#76828F" Geometry="M1,5 H15 V7.5 H11 L10.5,8.5 V10.5 L12.5,12.5 V14 H3.5 V12.5 L5.5,10.5 V8.5 C3.6,8.3 1.8,7.3 1,5 Z" />
+                    <GeometryDrawing Brush="#A8B2BE" Geometry="M1,5 H15 V6 H1.4 Z" />
+                </DrawingGroup>
+            </DrawingImage>
+            <DrawingImage x:Key="LoaderIcon.NeoForge">
+                <DrawingGroup>
+                    <GeometryDrawing Brush="Transparent" Geometry="M0,0 H16 V16 H0 Z" />
+                    <GeometryDrawing Brush="#DD7433" Geometry="M1,5 H15 V7.5 H11 L10.5,8.5 V10.5 L12.5,12.5 V14 H3.5 V12.5 L5.5,10.5 V8.5 C3.6,8.3 1.8,7.3 1,5 Z" />
+                    <GeometryDrawing Brush="#F4A46C" Geometry="M1,5 H15 V6 H1.4 Z" />
+                    <GeometryDrawing Brush="#F6C343" Geometry="M13,0.4 L13.55,1.65 L14.8,2.2 L13.55,2.75 L13,4 L12.45,2.75 L11.2,2.2 L12.45,1.65 Z" />
+                </DrawingGroup>
+            </DrawingImage>
+            <DrawingImage x:Key="LoaderIcon.Fabric">
+                <DrawingGroup>
+                    <GeometryDrawing Brush="Transparent" Geometry="M0,0 H16 V16 H0 Z" />
+                    <GeometryDrawing Brush="#DBD0B4" Geometry="M3,1 H13 A2,2 0 0 1 15,3 V13 A2,2 0 0 1 13,15 H3 A2,2 0 0 1 1,13 V3 A2,2 0 0 1 3,1 Z">
+                        <GeometryDrawing.Pen>
+                            <Pen Brush="#4A4436" Thickness="1" />
+                        </GeometryDrawing.Pen>
+                    </GeometryDrawing>
+                    <GeometryDrawing Geometry="M4,12 L12,4 M7.5,13.5 L13.5,7.5 M2.5,8.5 L8.5,2.5">
+                        <GeometryDrawing.Pen>
+                            <Pen Brush="#8A826E" Thickness="1.2" LineCap="Round" />
+                        </GeometryDrawing.Pen>
+                    </GeometryDrawing>
+                </DrawingGroup>
+            </DrawingImage>
+            <DrawingImage x:Key="LoaderIcon.Quilt">
+                <DrawingGroup>
+                    <GeometryDrawing Brush="Transparent" Geometry="M0,0 H16 V16 H0 Z" />
+                    <GeometryDrawing Brush="#9C5CF5" Geometry="M2.5,1 H6 A1.5,1.5 0 0 1 7.5,2.5 V6 A1.5,1.5 0 0 1 6,7.5 H2.5 A1.5,1.5 0 0 1 1,6 V2.5 A1.5,1.5 0 0 1 2.5,1 Z" />
+                    <GeometryDrawing Brush="#E35BB0" Geometry="M10,1 H13.5 A1.5,1.5 0 0 1 15,2.5 V6 A1.5,1.5 0 0 1 13.5,7.5 H10 A1.5,1.5 0 0 1 8.5,6 V2.5 A1.5,1.5 0 0 1 10,1 Z" />
+                    <GeometryDrawing Brush="#4F8EF7" Geometry="M2.5,8.5 H6 A1.5,1.5 0 0 1 7.5,10 V13.5 A1.5,1.5 0 0 1 6,15 H2.5 A1.5,1.5 0 0 1 1,13.5 V10 A1.5,1.5 0 0 1 2.5,8.5 Z" />
+                    <GeometryDrawing Brush="#7C4DDB" Geometry="M10,8.5 H13.5 A1.5,1.5 0 0 1 15,10 V13.5 A1.5,1.5 0 0 1 13.5,15 H10 A1.5,1.5 0 0 1 8.5,13.5 V10 A1.5,1.5 0 0 1 10,8.5 Z" />
+                </DrawingGroup>
+            </DrawingImage>
+        </ResourceDictionary>
+    </Styles.Resources>
+
+    <!-- Type scale: page title 22, section 15, body 13, caption 12 -->
+    <Style Selector="TextBlock.pageTitle">
+        <Setter Property="FontSize" Value="22" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+    </Style>
+    <Style Selector="TextBlock.section">
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+    </Style>
+    <Style Selector="TextBlock.caption">
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Foreground" Value="{DynamicResource App.TextSecondary}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+    <Style Selector="TextBlock.label">
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{DynamicResource App.TextSecondary}" />
+        <Setter Property="Margin" Value="0,0,0,4" />
+    </Style>
+
+    <!-- Surfaces: flat cards with a hairline border instead of shadows -->
+    <Style Selector="Border.card">
+        <Setter Property="Background" Value="{DynamicResource App.Surface}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource App.Border}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="8" />
+        <Setter Property="Padding" Value="16" />
+    </Style>
+    <Style Selector="Border.badge">
+        <Setter Property="CornerRadius" Value="10" />
+        <Setter Property="Padding" Value="8,2,10,2" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+    <Style Selector="Border.badge TextBlock">
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <!-- Sidebar navigation -->
+    <Style Selector="ListBox.nav">
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+    <Style Selector="ListBox.nav ListBoxItem">
+        <Setter Property="Padding" Value="10,8" />
+        <Setter Property="Margin" Value="0,1" />
+        <Setter Property="CornerRadius" Value="6" />
+    </Style>
+    <Style Selector="ListBox.nav ListBoxItem:selected /template/ ContentPresenter#PART_ContentPresenter, ListBox.nav ListBoxItem:selected:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource App.AccentSubtle}" />
+        <Setter Property="Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}" />
+    </Style>
+
+    <!-- Data grids sit inside cards -->
+    <Style Selector="DataGrid">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="RowHeight" Value="38" />
+        <Setter Property="GridLinesVisibility" Value="Horizontal" />
+        <Setter Property="HorizontalGridLinesBrush" Value="{DynamicResource App.Border}" />
+    </Style>
+    <Style Selector="DataGridColumnHeader">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{DynamicResource App.TextSecondary}" />
+    </Style>
+    <Style Selector="TextBox.code">
+        <Setter Property="FontFamily" Value="Cascadia Mono,Consolas,DejaVu Sans Mono,monospace" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="AcceptsReturn" Value="True" />
+        <Setter Property="AcceptsTab" Value="True" />
+        <Setter Property="TextWrapping" Value="NoWrap" />
+    </Style>
+</Styles>

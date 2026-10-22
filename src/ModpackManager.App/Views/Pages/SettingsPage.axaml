@@ -1,0 +1,55 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:ModpackManager.App.ViewModels"
+             xmlns:v="using:ModpackManager.App.Views"
+             xmlns:res="using:ModpackManager.App.Resources"
+             xmlns:core="using:ModpackManager.Core"
+             xmlns:ic="using:FluentIcons.Avalonia"
+             x:Class="ModpackManager.App.Views.Pages.SettingsPage"
+             x:DataType="vm:MainViewModel">
+    <StackPanel Margin="24,20,24,16">
+        <StackPanel Margin="0,0,0,16">
+            <TextBlock Classes="pageTitle" Text="{x:Static res:Strings.TabSettings}" />
+            <TextBlock Classes="caption" Text="{x:Static res:Strings.SettingsSubtitle}" Margin="0,2,0,0" />
+        </StackPanel>
+        <Border Classes="card" MaxWidth="560" HorizontalAlignment="Left" Padding="20">
+            <StackPanel Spacing="16">
+                <StackPanel>
+                    <TextBlock Classes="label" Text="{x:Static res:Strings.McVersion}" />
+                    <TextBox Text="{Binding SettingsMcVersion}" AutomationProperties.Name="{x:Static res:Strings.McVersion}" />
+                </StackPanel>
+                <Grid ColumnDefinitions="*,16,*">
+                    <StackPanel>
+                        <TextBlock Classes="label" Text="{x:Static res:Strings.LoaderLabel}" />
+                        <ComboBox ItemsSource="{Binding LoaderChoices}" SelectedItem="{Binding SettingsLoader}" HorizontalAlignment="Stretch"
+                                  AutomationProperties.Name="{x:Static res:Strings.LoaderLabel}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate x:DataType="core:Loader">
+                                    <StackPanel Orientation="Horizontal" Spacing="8">
+                                        <Image Width="16" Height="16" Source="{Binding Converter={x:Static v:Ui.LoaderIcon}}" />
+                                        <TextBlock Text="{Binding}" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </StackPanel>
+                    <StackPanel Grid.Column="2">
+                        <TextBlock Classes="label" Text="{x:Static res:Strings.LoaderVersion}" />
+                        <TextBox Text="{Binding SettingsLoaderVersion}" AutomationProperties.Name="{x:Static res:Strings.LoaderVersion}" />
+                    </StackPanel>
+                </Grid>
+                <Border BorderBrush="{DynamicResource App.Border}" BorderThickness="0,1,0,0" Padding="0,16,0,0">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <TextBlock Classes="caption" Text="{x:Static res:Strings.SettingsHint}" Margin="0,0,16,0" VerticalAlignment="Center" />
+                        <Button Grid.Column="1" Classes="accent" Command="{Binding SaveSettingsCommand}" AutomationProperties.Name="{x:Static res:Strings.SaveSettings}">
+                            <StackPanel Orientation="Horizontal" Spacing="6">
+                                <ic:SymbolIcon Symbol="Save" FontSize="16" />
+                                <TextBlock Text="{x:Static res:Strings.SaveSettings}" />
+                            </StackPanel>
+                        </Button>
+                    </Grid>
+                </Border>
+            </StackPanel>
+        </Border>
+    </StackPanel>
+</UserControl>

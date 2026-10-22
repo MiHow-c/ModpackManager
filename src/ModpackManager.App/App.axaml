@@ -3,7 +3,14 @@
              x:Class="ModpackManager.App.App"
              RequestedThemeVariant="Default">
     <Application.Styles>
-        <FluentTheme />
+        <FluentTheme>
+            <FluentTheme.Palettes>
+                <!-- one emerald accent; RegionColor is the window background -->
+                <ColorPaletteResources x:Key="Light" Accent="#FF1E8A5C" RegionColor="#FFF5F6F8" />
+                <ColorPaletteResources x:Key="Dark" Accent="#FF2BB673" RegionColor="#FF111418" />
+            </FluentTheme.Palettes>
+        </FluentTheme>
         <StyleInclude Source="avares://Avalonia.Controls.DataGrid/Themes/Fluent.xaml" />
+        <StyleInclude Source="avares://ModpackManager.App/Themes/Theme.axaml" />
     </Application.Styles>
 </Application>
