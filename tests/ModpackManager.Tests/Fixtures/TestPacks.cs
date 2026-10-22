@@ -105,6 +105,8 @@ static class TestPacks
         Jar(Path.Combine(mods, "fabric.jar"), ("fabric.mod.json", FabricJson("fabricmod", "4.0.0")));
         Jar(Path.Combine(mods, "quilt.jar"), ("quilt.mod.json", QuiltJson("quiltmod", "5.0.0")));
         Write(Path.Combine(mods, "broken.jar"), "not a zip");
+        Write(Path.Combine(mods, ".index", "neomod.pw.toml"), "name = \"Prism metadata\"\n"); // Prism Launcher's mod metadata
+        Write(Path.Combine(mods, "readme.txt"), "a non-jar file in mods/");
         Write(Path.Combine(root, "config", "a.toml"), "x = 1\n");
         Write(Path.Combine(root, "saves", "world", "level.dat"), "ignored");
         Write(Path.Combine(root, "mmc-pack.json"), """

@@ -8,7 +8,19 @@ namespace ModpackManager.App.Views;
 
 public partial class MainWindow : Window
 {
-    public MainWindow() => InitializeComponent();
+    bool _closeConfirmed;
+
+    public MainWindow()
+    {
+        InitializeComponent();
+        // no dialog needed: the first close with unsaved edits only warns, a second close discards them
+        Closing += (_, e) =>
+        {
+            if (_closeConfirmed || DataContext is not MainViewModel { UnsavedCount: > 0 } vm) return;
+            e.Cancel = _closeConfirmed = true;
+            vm.Status = string.Format(Strings.UnsavedOnClose, vm.UnsavedCount);
+        };
+    }
 
     async void OnOpenClick(object? sender, RoutedEventArgs e)
     {

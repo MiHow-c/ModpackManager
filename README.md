@@ -58,6 +58,32 @@ dotnet publish src/ModpackManager.App -c Release -r win-x64 --self-contained -o 
 dotnet publish src/ModpackManager.App -c Release -r linux-x64 --self-contained -o publish/linux-x64
 ```
 
+## Edytor plików i configów
+
+Zakładka **Pliki i configi** to edytor z numeracją wierszy, kolorowaniem składni i wyszukiwaniem z zamianą (**Ctrl+F**, **Ctrl+H**):
+
+- składnia jest sprawdzana w trakcie pisania. Błąd TOML/JSON podświetla wiersz, pokazuje wiersz i kolumnę oraz blokuje zapis; **Przejdź** ustawia kursor na błędzie,
+- niezapisane zmiany każdego pliku są zachowywane przy przełączaniu plików (kropka na liście, plakietka „niezapisane”); **Przywróć** wraca do wersji z dysku, **Ctrl+S** zapisuje,
+- **Formatuj JSON** układa plik czytelnie (pomija pliki z komentarzami, żeby ich nie usunąć),
+- pole nad listą filtruje pliki po nazwie.
+
+## Aktualizacje aplikacji
+
+Przy starcie aplikacja sprawdza najnowsze wydanie na GitHubie (repozytorium z `UpdateRepository` w `Directory.Build.props`, domyślnie `MiKoF/ModpackManager`). Gdy jest nowsza wersja, pokazuje pasek **Dostępna nowa wersja** — nic nie instaluje się bez kliknięcia **Zainstaluj i uruchom ponownie**. Paczka jest sprawdzana sumą SHA-256, a jeśli podmiana plików się nie uda, przywracana jest poprzednia wersja. Zmienna `MPM_UPDATE_URL` pozwala wskazać inny plik `update.json`.
+
+Repozytorium (albo przynajmniej jego wydania) musi być publiczne, bo aplikacja pobiera pliki bez logowania.
+
+Wydanie nowej wersji:
+
+1. Podnieś `<Version>` w `Directory.Build.props` (np. `0.2.0`).
+2. Zbuduj paczki i `update.json`:
+
+   ```powershell
+   pwsh tools/release.ps1 -Notes "Co się zmieniło"
+   ```
+
+3. Na GitHubie utwórz wydanie z tagiem `v0.2.0` i dołącz wszystkie pliki z `publish/release/v0.2.0` (`ModpackManager-win-x64.zip`, `ModpackManager-linux-x64.zip`, `update.json`). Wydanie musi być oznaczone jako najnowsze (*latest*).
+
 ## CurseForge (opcjonalnie)
 
 Bez klucza aplikacja identyfikuje mody przez Modrinth (po hashu pliku), link z metadanych jara albo ręcznie przypisany link. Z kluczem dochodzi identyfikacja po fingerprincie CurseForge i pobieranie plików CurseForge przy synchronizacji.
@@ -151,6 +177,7 @@ Inną lokalizację można wskazać zmienną `MPM_DATA_DIR`.
 | `packs/<id>/settings.json` | ręczne linki, ręczna wersja MC/loadera, zapisane połączenie z hostem (z tokenem) |
 | `packs/<id>/host.json` | rewizja paczki, użytkownicy (hashe tokenów, uprawnienia), aktywne zaproszenia |
 | `packs/<id>/backups/<data>/` | każda usunięta lub nadpisana wersja pliku |
+| `update/` | pobrana aktualizacja w trakcie instalacji (usuwana przy następnym starcie) |
 
 Kopie zapasowe przywraca się ręcznie: skopiuj plik z folderu kopii z powrotem do paczki.
 
@@ -158,7 +185,9 @@ Kopie zapasowe przywraca się ręcznie: skopiuj plik z folderu kopii z powrotem 
 
 - Zapis `pack.toml` gubi komentarze. Obsługiwany jest tylko `index.toml` w katalogu głównym paczki (domyślne ustawienie packwiz).
 - `.packwizignore`: obsługiwane są `*`, `?`, `**`, `/` i `!`, bez klas znaków `[]`.
-- Edytor configów nie pilnuje niezapisanych zmian przy przełączaniu pliku.
+- Kolorowanie TOML korzysta z gramatyki INI (pakiet TextMate nie ma osobnej gramatyki TOML). `.json5`, `.cfg` i `.snbt` są sprawdzane tylko pod kątem nawiasów i cudzysłowów (ostrzeżenia, zapisu nie blokują); `.properties` nie jest sprawdzany.
+- Niezapisane zmiany w edytorze żyją do zamknięcia aplikacji (okno ostrzega przy pierwszej próbie zamknięcia).
+- Aktualizacje nie są podpisywane cyfrowo: aplikacja ufa plikowi `update.json` z wydania na GitHubie i sprawdza tylko zgodność SHA-256 paczki z tym plikiem.
 - Host przy każdym porównaniu skanuje całą paczkę, więc przy bardzo dużych paczkach trwa to kilka sekund.
 - Mod z CurseForge bez klucza API (albo z zablokowaną dystrybucją) na hoście packwiz trzeba pobrać ręcznie.
 - Pliki wysyłane do hosta mają limit 100 MB.

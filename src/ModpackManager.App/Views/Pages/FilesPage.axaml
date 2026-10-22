@@ -3,17 +3,27 @@
              xmlns:vm="using:ModpackManager.App.ViewModels"
              xmlns:res="using:ModpackManager.App.Resources"
              xmlns:ic="using:FluentIcons.Avalonia"
+             xmlns:ae="using:AvaloniaEdit"
              x:Class="ModpackManager.App.Views.Pages.FilesPage"
              x:DataType="vm:MainViewModel">
+    <UserControl.KeyBindings>
+        <KeyBinding Gesture="Ctrl+S" Command="{Binding SaveFileCommand}" />
+    </UserControl.KeyBindings>
     <DockPanel Margin="24,20,24,16">
         <StackPanel DockPanel.Dock="Top" Margin="0,0,0,16">
             <TextBlock Classes="pageTitle" Text="{x:Static res:Strings.TabFiles}" />
             <TextBlock Classes="caption" Text="{x:Static res:Strings.FilesSubtitle}" Margin="0,2,0,0" />
         </StackPanel>
 
-        <Grid ColumnDefinitions="340,16,*">
+        <Grid ColumnDefinitions="320,16,*">
             <Border Classes="card" Padding="8">
                 <DockPanel>
+                    <TextBox DockPanel.Dock="Top" Margin="0,0,0,8" Text="{Binding FileFilter}" PlaceholderText="{x:Static res:Strings.FilterFiles}"
+                             AutomationProperties.Name="{x:Static res:Strings.FilterFiles}">
+                        <TextBox.InnerLeftContent>
+                            <ic:SymbolIcon Symbol="Filter" FontSize="14" Margin="8,0,0,0" Foreground="{DynamicResource App.TextSecondary}" />
+                        </TextBox.InnerLeftContent>
+                    </TextBox>
                     <StackPanel DockPanel.Dock="Bottom" Spacing="8" Margin="8,12,8,8">
                         <TextBlock Classes="label" Text="{x:Static res:Strings.TargetFolder}" Margin="0" />
                         <TextBox Text="{Binding NewFileFolder}" AutomationProperties.Name="{x:Static res:Strings.TargetFolder}" />
@@ -32,38 +42,79 @@
                             </Button>
                         </StackPanel>
                     </StackPanel>
-                    <ListBox ItemsSource="{Binding Files}" SelectedItem="{Binding SelectedFile}" Background="Transparent"
+                    <ListBox ItemsSource="{Binding Files}" SelectedItem="{Binding SelectedFileRow}" Background="Transparent"
                              AutomationProperties.Name="{x:Static res:Strings.FilesListName}">
                         <ListBox.ItemTemplate>
-                            <DataTemplate x:DataType="x:String">
-                                <StackPanel Orientation="Horizontal" Spacing="8">
-                                    <ic:SymbolIcon Symbol="DocumentText" FontSize="16" Foreground="{DynamicResource App.TextSecondary}" />
-                                    <TextBlock Text="{Binding}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
-                                </StackPanel>
+                            <DataTemplate x:DataType="vm:FileRow">
+                                <Grid ColumnDefinitions="Auto,*,Auto" AutomationProperties.Name="{Binding Path}">
+                                    <ic:SymbolIcon Symbol="DocumentText" FontSize="16" Margin="0,0,8,0" Foreground="{DynamicResource App.TextSecondary}" />
+                                    <TextBlock Grid.Column="1" Text="{Binding Path}" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" ToolTip.Tip="{Binding Path}" />
+                                    <Ellipse Grid.Column="2" Width="8" Height="8" Margin="8,0,0,0" Fill="{DynamicResource App.Accent}" IsVisible="{Binding IsDirty}"
+                                             ToolTip.Tip="{x:Static res:Strings.UnsavedMarker}" />
+                                </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
                 </DockPanel>
             </Border>
 
-            <Border Grid.Column="2" Classes="card" Padding="0">
+            <Border Grid.Column="2" Classes="card" Padding="0" ClipToBounds="True">
                 <DockPanel>
-                    <Border DockPanel.Dock="Top" BorderBrush="{DynamicResource App.Border}" BorderThickness="0,0,0,1" Padding="16,10">
+                    <Border DockPanel.Dock="Top" BorderBrush="{DynamicResource App.Border}" BorderThickness="0,0,0,1" Padding="16,8,8,8">
                         <Grid ColumnDefinitions="*,Auto">
-                            <TextBlock Text="{Binding SelectedFile}" FontWeight="SemiBold" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"
-                                       IsVisible="{Binding SelectedFile, Converter={x:Static ObjectConverters.IsNotNull}}" />
-                            <TextBlock Classes="caption" Text="{x:Static res:Strings.NoFileSelected}" VerticalAlignment="Center"
-                                       IsVisible="{Binding SelectedFile, Converter={x:Static ObjectConverters.IsNull}}" />
-                            <Button Grid.Column="1" Classes="accent" Command="{Binding SaveFileCommand}" AutomationProperties.Name="{x:Static res:Strings.SaveFile}">
-                                <StackPanel Orientation="Horizontal" Spacing="6">
-                                    <ic:SymbolIcon Symbol="Save" FontSize="16" />
-                                    <TextBlock Text="{x:Static res:Strings.SaveFile}" />
-                                </StackPanel>
-                            </Button>
+                            <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding SelectedFileRow.Path, FallbackValue={x:Null}}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"
+                                           IsVisible="{Binding SelectedFileRow, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                                <Border Classes="badge" Background="{DynamicResource Badge.Warning.Background}" IsVisible="{Binding IsEditorDirty}">
+                                    <TextBlock Text="{x:Static res:Strings.UnsavedMarker}" Foreground="{DynamicResource Badge.Warning.Foreground}" />
+                                </Border>
+                                <TextBlock Classes="caption" Text="{x:Static res:Strings.NoFileSelected}"
+                                           IsVisible="{Binding SelectedFileRow, Converter={x:Static ObjectConverters.IsNull}}" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="4">
+                                <Button Click="OnSearchClick" IsEnabled="{Binding CanEditFile}" ToolTip.Tip="{x:Static res:Strings.SearchInFile}"
+                                        AutomationProperties.Name="{x:Static res:Strings.SearchInFile}">
+                                    <ic:SymbolIcon Symbol="Search" FontSize="16" />
+                                </Button>
+                                <Button Command="{Binding FormatJsonCommand}" ToolTip.Tip="{x:Static res:Strings.FormatJson}"
+                                        AutomationProperties.Name="{x:Static res:Strings.FormatJson}">
+                                    <ic:SymbolIcon Symbol="TextAlignLeft" FontSize="16" />
+                                </Button>
+                                <Button Command="{Binding RevertFileCommand}" AutomationProperties.Name="{x:Static res:Strings.RevertFile}">
+                                    <StackPanel Orientation="Horizontal" Spacing="6">
+                                        <ic:SymbolIcon Symbol="ArrowUndo" FontSize="16" />
+                                        <TextBlock Text="{x:Static res:Strings.RevertFile}" />
+                                    </StackPanel>
+                                </Button>
+                                <Button Classes="accent" Command="{Binding SaveFileCommand}" AutomationProperties.Name="{x:Static res:Strings.SaveFile}"
+                                        ToolTip.Tip="Ctrl+S">
+                                    <StackPanel Orientation="Horizontal" Spacing="6">
+                                        <ic:SymbolIcon Symbol="Save" FontSize="16" />
+                                        <TextBlock Text="{x:Static res:Strings.SaveFile}" />
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
                         </Grid>
                     </Border>
-                    <TextBox Classes="code" Margin="12" Text="{Binding EditorText}" IsReadOnly="{Binding !CanEditFile}"
-                             AutomationProperties.Name="{x:Static res:Strings.EditorName}" />
+
+                    <!-- syntax status: error blocks saving, warning only informs -->
+                    <Border DockPanel.Dock="Bottom" BorderBrush="{DynamicResource App.Border}" BorderThickness="0,1,0,0" Padding="16,6,8,6">
+                        <Grid ColumnDefinitions="Auto,*,Auto,Auto">
+                            <Panel Margin="0,0,8,0" VerticalAlignment="Center">
+                                <ic:SymbolIcon Symbol="ErrorCircle" FontSize="16" Foreground="{DynamicResource Badge.Orange.Foreground}" IsVisible="{Binding HasIssueError}" />
+                                <ic:SymbolIcon Symbol="Warning" FontSize="16" Foreground="{DynamicResource Badge.Warning.Foreground}" IsVisible="{Binding HasIssueWarning}" />
+                                <ic:SymbolIcon Symbol="CheckmarkCircle" FontSize="16" Foreground="{DynamicResource Badge.Success.Foreground}" IsVisible="{Binding IsSyntaxOk}" />
+                            </Panel>
+                            <SelectableTextBlock Grid.Column="1" Text="{Binding IssueText}" FontSize="12" TextWrapping="Wrap" VerticalAlignment="Center" />
+                            <Button Grid.Column="2" Margin="8,0" Click="OnGoToIssueClick" Content="{x:Static res:Strings.GoToIssue}"
+                                    IsVisible="{Binding EditorIssue, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                            <TextBlock Grid.Column="3" x:Name="CaretText" Classes="caption" VerticalAlignment="Center" Margin="8,0" />
+                        </Grid>
+                    </Border>
+
+                    <ae:TextEditor x:Name="Editor" ShowLineNumbers="True" WordWrap="False" Padding="4,8,0,8"
+                                   FontFamily="Cascadia Mono,Consolas,DejaVu Sans Mono,monospace" FontSize="13"
+                                   IsReadOnly="{Binding !CanEditFile}" AutomationProperties.Name="{x:Static res:Strings.EditorName}" />
                 </DockPanel>
             </Border>
         </Grid>

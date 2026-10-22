@@ -18,6 +18,8 @@ public static class PackScanner
             .Select(dir => Path.Combine(root, dir))
             .Where(Directory.Exists)
             .SelectMany(dir => Directory.EnumerateFiles(dir, "*", SearchOption.AllDirectories))
+            // hidden entries are tool metadata, not pack content (Prism keeps mods/.index/*.pw.toml there)
+            .Where(file => !Path.GetRelativePath(root, file).Split(Path.DirectorySeparatorChar).Any(s => s.StartsWith('.')))
             .Select(file => FileEntry(root, file))
             .OrderBy(e => e.Path, StringComparer.Ordinal)
             .ToList();

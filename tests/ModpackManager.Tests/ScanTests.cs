@@ -24,6 +24,7 @@ public class ScanTests
         Assert.Null(broken.Mod);
         Assert.Equal(EntryKind.Config, Assert.Single(entries, e => e.Path == "config/a.toml").Kind);
         Assert.DoesNotContain(entries, e => e.Path.StartsWith("saves/", StringComparison.Ordinal));
+        Assert.DoesNotContain(entries, e => e.Path.Contains("/.index/", StringComparison.Ordinal));
         Assert.All(entries, e => Assert.Equal(["sha1", "sha256", "sha512"], e.Hashes.Keys.Order()));
     }
 

@@ -10,7 +10,8 @@ using ModpackManager.Core.Sync;
 namespace ModpackManager.App.ViewModels;
 
 /// <summary>Shared state: the open pack, its entries and status. Tabs live in the other MainViewModel.*.cs parts.</summary>
-public sealed partial class MainViewModel(AppPaths paths, ModrinthClient modrinth, SourceIdentifier identifier, Puller puller) : ObservableObject
+public sealed partial class MainViewModel(
+    AppPaths paths, ModrinthClient modrinth, SourceIdentifier identifier, Puller puller, Core.Updates.Updater? updater) : ObservableObject
 {
     PackEditor? _editor;
     List<PackEntry> _all = [];
@@ -129,7 +130,9 @@ public sealed partial class MainViewModel(AppPaths paths, ModrinthClient modrint
         }
     }
 
-    static bool IsModRow(PackEntry e) => e.Kind is EntryKind.Mod or EntryKind.ResourcePack or EntryKind.ShaderPack;
+    // only jars (also Prism's disabled *.jar.disabled) are mods; other files in mods/ belong in the file editor
+    static bool IsModRow(PackEntry e) => e.Kind is EntryKind.ResourcePack or EntryKind.ShaderPack
+        || (e.Kind == EntryKind.Mod && (e.Path.EndsWith(".jar", StringComparison.OrdinalIgnoreCase) || e.Path.EndsWith(".jar.disabled", StringComparison.OrdinalIgnoreCase)));
 
     void RefreshRows()
     {

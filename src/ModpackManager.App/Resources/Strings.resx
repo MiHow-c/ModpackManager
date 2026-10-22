@@ -23,6 +23,29 @@
   <data name="CollabSubtitle" xml:space="preserve"><value>Udostępnij paczkę przez tunel playit.gg albo dołącz do paczki innej osoby.</value></data>
   <data name="SearchFilterHint" xml:space="preserve"><value>Wyniki i wersje są zgodne z wersją MC i loaderem paczki.</value></data>
   <data name="SearchEmpty" xml:space="preserve"><value>Wpisz nazwę moda i kliknij „Szukaj”.</value></data>
+  <data name="IssueTomlSyntax" xml:space="preserve"><value>Błąd składni TOML (wiersz {0}, kolumna {1}) — zapis zablokowany. {2}</value></data>
+  <data name="IssueJsonSyntax" xml:space="preserve"><value>Błąd składni JSON (wiersz {0}, kolumna {1}) — zapis zablokowany. {2}</value></data>
+  <data name="IssueUnexpectedBracket" xml:space="preserve"><value>Ostrzeżenie: nieoczekiwany nawias „{2}” w wierszu {0}, kolumnie {1}.</value></data>
+  <data name="IssueUnclosedBracket" xml:space="preserve"><value>Ostrzeżenie: nawias „{2}” otwarty w wierszu {0}, kolumnie {1} nie jest zamknięty.</value></data>
+  <data name="IssueUnclosedString" xml:space="preserve"><value>Ostrzeżenie: cudzysłów {2} otwarty w wierszu {0}, kolumnie {1} nie jest zamknięty.</value></data>
+  <data name="SyntaxOk" xml:space="preserve"><value>Składnia poprawna.</value></data>
+  <data name="SyntaxNotChecked" xml:space="preserve"><value>Ten format nie ma sprawdzania składni.</value></data>
+  <data name="FormatHasComments" xml:space="preserve"><value>Plik ma komentarze, a formatowanie by je usunęło — pominięto.</value></data>
+  <data name="FormatJson" xml:space="preserve"><value>Formatuj JSON</value></data>
+  <data name="RevertFile" xml:space="preserve"><value>Przywróć</value></data>
+  <data name="SearchInFile" xml:space="preserve"><value>Szukaj i zamień (Ctrl+F)</value></data>
+  <data name="GoToIssue" xml:space="preserve"><value>Przejdź</value></data>
+  <data name="UnsavedMarker" xml:space="preserve"><value>niezapisane</value></data>
+  <data name="FilterFiles" xml:space="preserve"><value>Filtruj pliki…</value></data>
+  <data name="CaretPosition" xml:space="preserve"><value>Wiersz {0}, kol. {1}</value></data>
+  <data name="UnsavedOnClose" xml:space="preserve"><value>Niezapisane zmiany w plikach: {0}. Zapisz je albo zamknij okno ponownie, aby je odrzucić.</value></data>
+  <data name="AppVersion" xml:space="preserve"><value>Wersja {0}</value></data>
+  <data name="UpdateAvailable" xml:space="preserve"><value>Dostępna nowa wersja {0}</value></data>
+  <data name="UpdateInstall" xml:space="preserve"><value>Zainstaluj i uruchom ponownie</value></data>
+  <data name="UpdateLater" xml:space="preserve"><value>Później</value></data>
+  <data name="UpdateDownloading" xml:space="preserve"><value>Pobieranie i sprawdzanie aktualizacji…</value></data>
+  <data name="UpdateUnsaved" xml:space="preserve"><value>Zapisz albo przywróć niezapisane pliki przed aktualizacją — zamknięcie aplikacji by je odrzuciło.</value></data>
+  <data name="UpdateFailed" xml:space="preserve"><value>Nie udało się przygotować aktualizacji: {0}</value></data>
   <data name="NoFileSelected" xml:space="preserve"><value>Wybierz plik z listy, aby go podejrzeć lub edytować.</value></data>
   <data name="FormatFolder" xml:space="preserve"><value>folder instancji</value></data>
   <data name="FormatPackwiz" xml:space="preserve"><value>packwiz</value></data>
