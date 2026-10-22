@@ -49,7 +49,8 @@ public sealed partial class MainViewModel(
         await ShutdownAsync();
         Disconnect();
         _editor = PackEditor.Open(root, paths, modrinth, identifier);
-        HasPack = true;
+        // a pack that fails to load (e.g. broken pack.toml) stays closed, so its error stays on screen
+        HasPack = false;
         LoadCollabState();
         await RunAsync(ReloadAsync);
     }
@@ -61,6 +62,7 @@ public sealed partial class MainViewModel(
         var info = manifest.Info;
         _info = info;
         _all = manifest.Entries.ToList();
+        Stats = null; // recomputed the next time the statistics page is shown
         if (!IsConnected) _baseRevision = manifest.Revision;
         PackName = info.Name;
         PackDetails = string.Format(Strings.PackDetails,
@@ -70,6 +72,7 @@ public sealed partial class MainViewModel(
         LoadSettingsInputs(info);
         RefreshRows();
         RefreshFiles();
+        HasPack = true;
         var mods = _all.Where(IsModRow).ToList();
         Status = string.Join(" ", failed.Select(s => string.Format(Strings.SourceFailed, s))
             .Prepend(string.Format(Strings.Summary, mods.Count, mods.Count(e => e.Source == SourceKind.Unknown))));

@@ -76,6 +76,12 @@
                             <TextBlock Text="{x:Static res:Strings.TabMods}" VerticalAlignment="Center" />
                         </StackPanel>
                     </ListBoxItem>
+                    <ListBoxItem AutomationProperties.Name="{x:Static res:Strings.TabStats}">
+                        <StackPanel Orientation="Horizontal" Spacing="10">
+                            <ic:SymbolIcon Symbol="DataHistogram" FontSize="18" />
+                            <TextBlock Text="{x:Static res:Strings.TabStats}" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </ListBoxItem>
                     <ListBoxItem AutomationProperties.Name="{x:Static res:Strings.TabFiles}">
                         <StackPanel Orientation="Horizontal" Spacing="10">
                             <ic:SymbolIcon Symbol="DocumentText" FontSize="18" />
@@ -132,6 +138,7 @@
             <Panel>
                 <Carousel SelectedIndex="{Binding #Nav.SelectedIndex}" IsVisible="{Binding HasPack}" IsEnabled="{Binding !IsBusy}">
                     <pages:ModsPage />
+                    <pages:StatsPage />
                     <pages:FilesPage />
                     <pages:SettingsPage />
                     <pages:CollabPage />

@@ -1,0 +1,116 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:ModpackManager.App.ViewModels"
+             xmlns:res="using:ModpackManager.App.Resources"
+             xmlns:ic="using:FluentIcons.Avalonia"
+             x:Class="ModpackManager.App.Views.Pages.StatsPage"
+             x:DataType="vm:MainViewModel">
+    <UserControl.Styles>
+        <Style Selector="Border.tile TextBlock.value">
+            <Setter Property="FontSize" Value="22" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+        </Style>
+    </UserControl.Styles>
+    <UserControl.DataTemplates>
+        <!-- one bar per category or side: label, proportional bar, count (the bar never stands alone) -->
+        <DataTemplate x:DataType="vm:BarRow">
+            <Grid ColumnDefinitions="170,*,44" Margin="0,4">
+                <TextBlock Text="{Binding Label}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" ToolTip.Tip="{Binding Label}" />
+                <ProgressBar Grid.Column="1" Value="{Binding Count}" Maximum="{Binding Max}" MinWidth="0" Height="8" CornerRadius="4" VerticalAlignment="Center" />
+                <TextBlock Grid.Column="2" Text="{Binding Count}" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="SemiBold" />
+            </Grid>
+        </DataTemplate>
+    </UserControl.DataTemplates>
+
+    <DockPanel Margin="24,20,24,16">
+        <Grid DockPanel.Dock="Top" ColumnDefinitions="*,Auto" Margin="0,0,0,16">
+            <StackPanel>
+                <TextBlock Classes="pageTitle" Text="{x:Static res:Strings.TabStats}" />
+                <TextBlock Classes="caption" Text="{x:Static res:Strings.StatsSubtitle}" Margin="0,2,0,0" />
+            </StackPanel>
+            <Button Grid.Column="1" VerticalAlignment="Bottom" Command="{Binding ComputeStatsCommand}" AutomationProperties.Name="{x:Static res:Strings.StatsRecalculate}">
+                <StackPanel Orientation="Horizontal" Spacing="6">
+                    <ic:SymbolIcon Symbol="ArrowSync" FontSize="16" />
+                    <TextBlock Text="{x:Static res:Strings.StatsRecalculate}" />
+                </StackPanel>
+            </Button>
+        </Grid>
+
+        <Panel>
+            <StackPanel IsVisible="{Binding Stats, Converter={x:Static ObjectConverters.IsNull}}" Spacing="8"
+                        HorizontalAlignment="Center" VerticalAlignment="Center">
+                <ic:SymbolIcon Symbol="DataHistogram" FontSize="36" Foreground="{DynamicResource App.TextSecondary}" HorizontalAlignment="Center" />
+                <TextBlock Classes="caption" Text="{x:Static res:Strings.StatsEmpty}" TextAlignment="Center" />
+            </StackPanel>
+
+            <ScrollViewer IsVisible="{Binding Stats, Converter={x:Static ObjectConverters.IsNotNull}}">
+                <StackPanel Spacing="16">
+                    <UniformGrid Columns="7">
+                        <Border Classes="card tile" Padding="14,10" Margin="0,0,10,0">
+                            <StackPanel><TextBlock Classes="value" Text="{Binding Stats.Mods.Count, FallbackValue=0}" /><TextBlock Classes="caption" Text="{x:Static res:Strings.StatMods}" /></StackPanel>
+                        </Border>
+                        <Border Classes="card tile" Padding="14,10" Margin="0,0,10,0">
+                            <StackPanel><TextBlock Classes="value" Text="{Binding Stats.Content.Blocks, FallbackValue=—}" /><TextBlock Classes="caption" Text="{x:Static res:Strings.StatBlocks}" /></StackPanel>
+                        </Border>
+                        <Border Classes="card tile" Padding="14,10" Margin="0,0,10,0">
+                            <StackPanel><TextBlock Classes="value" Text="{Binding Stats.Content.Items, FallbackValue=—}" /><TextBlock Classes="caption" Text="{x:Static res:Strings.StatItems}" /></StackPanel>
+                        </Border>
+                        <Border Classes="card tile" Padding="14,10" Margin="0,0,10,0">
+                            <StackPanel><TextBlock Classes="value" Text="{Binding Stats.Content.Entities, FallbackValue=—}" /><TextBlock Classes="caption" Text="{x:Static res:Strings.StatEntities}" /></StackPanel>
+                        </Border>
+                        <Border Classes="card tile" Padding="14,10" Margin="0,0,10,0">
+                            <StackPanel><TextBlock Classes="value" Text="{Binding Stats.Content.Structures, FallbackValue=—}" /><TextBlock Classes="caption" Text="{x:Static res:Strings.StatStructures}" /></StackPanel>
+                        </Border>
+                        <Border Classes="card tile" Padding="14,10" Margin="0,0,10,0">
+                            <StackPanel><TextBlock Classes="value" Text="{Binding Stats.Content.Biomes, FallbackValue=—}" /><TextBlock Classes="caption" Text="{x:Static res:Strings.StatBiomes}" /></StackPanel>
+                        </Border>
+                        <Border Classes="card tile" Padding="14,10">
+                            <StackPanel><TextBlock Classes="value" Text="{Binding Stats.Content.Recipes, FallbackValue=—}" /><TextBlock Classes="caption" Text="{x:Static res:Strings.StatRecipes}" /></StackPanel>
+                        </Border>
+                    </UniformGrid>
+
+                    <Grid ColumnDefinitions="3*,16,2*">
+                        <Border Classes="card">
+                            <StackPanel>
+                                <TextBlock Classes="section" Text="{x:Static res:Strings.StatsCategories}" Margin="0,0,0,8" />
+                                <ItemsControl ItemsSource="{Binding CategoryBars}" />
+                            </StackPanel>
+                        </Border>
+                        <Border Grid.Column="2" Classes="card">
+                            <StackPanel>
+                                <TextBlock Classes="section" Text="{x:Static res:Strings.StatsSides}" Margin="0,0,0,8" />
+                                <ItemsControl ItemsSource="{Binding SideBars}" />
+                                <TextBlock Classes="caption" Text="{Binding StatsNote}" Margin="0,12,0,0" />
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+
+                    <Border Classes="card" Padding="0" ClipToBounds="True">
+                        <DockPanel>
+                            <StackPanel DockPanel.Dock="Top" Margin="16,14,16,8">
+                                <TextBlock Classes="section" Text="{x:Static res:Strings.StatsContent}" />
+                                <TextBlock Classes="caption" Text="{x:Static res:Strings.StatsCountsHint}" Margin="0,2,0,0" />
+                            </StackPanel>
+                            <DataGrid ItemsSource="{Binding ModStatsRows}" IsReadOnly="True" AutoGenerateColumns="False" CanUserSortColumns="True" MaxHeight="520"
+                                      AutomationProperties.Name="{x:Static res:Strings.StatsContent}">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn x:DataType="vm:ModStatsRow" Header="{x:Static res:Strings.ColName}" Binding="{Binding Name}" FontWeight="SemiBold" Width="2*" />
+                                    <DataGridTextColumn x:DataType="vm:ModStatsRow" Header="{x:Static res:Strings.StatsCategories}" Binding="{Binding Categories}" Width="2*"
+                                                        Foreground="{DynamicResource App.TextSecondary}" />
+                                    <DataGridTextColumn x:DataType="vm:ModStatsRow" Header="{x:Static res:Strings.StatsSides}" Binding="{Binding Side}" Width="Auto" />
+                                    <DataGridTextColumn x:DataType="vm:ModStatsRow" Header="{x:Static res:Strings.StatBlocks}" Binding="{Binding Blocks}" Width="Auto" />
+                                    <DataGridTextColumn x:DataType="vm:ModStatsRow" Header="{x:Static res:Strings.StatItems}" Binding="{Binding Items}" Width="Auto" />
+                                    <DataGridTextColumn x:DataType="vm:ModStatsRow" Header="{x:Static res:Strings.StatEntities}" Binding="{Binding Entities}" Width="Auto" />
+                                    <DataGridTextColumn x:DataType="vm:ModStatsRow" Header="{x:Static res:Strings.StatStructures}" Binding="{Binding Structures}" Width="Auto" />
+                                    <DataGridTextColumn x:DataType="vm:ModStatsRow" Header="{x:Static res:Strings.StatBiomes}" Binding="{Binding Biomes}" Width="Auto" />
+                                    <DataGridTextColumn x:DataType="vm:ModStatsRow" Header="{x:Static res:Strings.StatRecipes}" Binding="{Binding Recipes}" Width="Auto" />
+                                    <DataGridTextColumn x:DataType="vm:ModStatsRow" Header="{x:Static res:Strings.ColTotal}" Binding="{Binding Total}" Width="Auto" FontWeight="SemiBold" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </DockPanel>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+        </Panel>
+    </DockPanel>
+</UserControl>

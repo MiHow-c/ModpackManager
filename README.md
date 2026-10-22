@@ -67,6 +67,15 @@ Zakładka **Pliki i configi** to edytor z numeracją wierszy, kolorowaniem skła
 - **Formatuj JSON** układa plik czytelnie (pomija pliki z komentarzami, żeby ich nie usunąć),
 - pole nad listą filtruje pliki po nazwie.
 
+## Statystyki paczki
+
+Zakładka **Statystyki** pokazuje, czego dotyczą mody i ile dodają do gry:
+
+- **kategorie** (technologia, magia, generowanie świata, moby, optymalizacja…) i **gdzie mod działa** (klient, serwer, oba) — dane z Modrinth, jedno zapytanie na paczkę. Mody spoza Modrinth są liczone jako „bez danych”,
+- **zawartość** każdego moda i całej paczki: bloki, przedmioty, moby i istoty, struktury, biomy, receptury. Liczona z plików definicji w jarach, więc działa tylko dla folderu instancji (packwiz nie trzyma jarów na dysku). To rzetelne przybliżenie, nie dokładny rejestr gry: zawartość dodana wyłącznie w kodzie nie zostanie policzona.
+
+Aplikacja celowo nie wylicza „siły wpływu” ani wpływu na wydajność — takich danych nikt nie publikuje, a zmyślony wskaźnik wprowadzałby w błąd.
+
 ## Aktualizacje aplikacji
 
 Przy starcie aplikacja sprawdza najnowsze wydanie na GitHubie (repozytorium z `UpdateRepository` w `Directory.Build.props`, domyślnie `MiHow-c/ModpackManager`). Gdy jest nowsza wersja, pokazuje pasek **Dostępna nowa wersja** — nic nie instaluje się bez kliknięcia **Zainstaluj i uruchom ponownie**. Paczka jest sprawdzana sumą SHA-256, a jeśli podmiana plików się nie uda, przywracana jest poprzednia wersja. Zmienna `MPM_UPDATE_URL` pozwala wskazać inny plik `update.json`.

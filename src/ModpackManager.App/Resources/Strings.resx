@@ -46,6 +46,48 @@
   <data name="UpdateDownloading" xml:space="preserve"><value>Pobieranie i sprawdzanie aktualizacji…</value></data>
   <data name="UpdateUnsaved" xml:space="preserve"><value>Zapisz albo przywróć niezapisane pliki przed aktualizacją — zamknięcie aplikacji by je odrzuciło.</value></data>
   <data name="UpdateFailed" xml:space="preserve"><value>Nie udało się przygotować aktualizacji: {0}</value></data>
+  <data name="TabStats" xml:space="preserve"><value>Statystyki</value></data>
+  <data name="StatsSubtitle" xml:space="preserve"><value>Czego dotyczą mody i ile zawartości dodają. Kategorie i strony pochodzą z Modrinth, zawartość jest policzona z plików jar.</value></data>
+  <data name="StatsRecalculate" xml:space="preserve"><value>Przelicz</value></data>
+  <data name="StatsEmpty" xml:space="preserve"><value>Statystyki nie są jeszcze policzone — kliknij „Przelicz”.</value></data>
+  <data name="StatsComputing" xml:space="preserve"><value>Liczenie statystyk…</value></data>
+  <data name="StatsCategories" xml:space="preserve"><value>Kategorie</value></data>
+  <data name="StatsSides" xml:space="preserve"><value>Gdzie działa</value></data>
+  <data name="StatsContent" xml:space="preserve"><value>Zawartość według modów</value></data>
+  <data name="StatsCountsHint" xml:space="preserve"><value>Liczby to pliki definicji w jarach (stany bloków, modele przedmiotów, nazwy istot, struktury i biomy świata, receptury) — dobre przybliżenie, nie dokładny rejestr gry.</value></data>
+  <data name="StatsWithoutData" xml:space="preserve"><value>Bez danych z Modrinth: {0} (mody z CurseForge albo nierozpoznane).</value></data>
+  <data name="StatsJarsCounted" xml:space="preserve"><value>Zawartość policzona z {0} z {1} jarów.</value></data>
+  <data name="StatsNoJars" xml:space="preserve"><value>Paczka nie ma jarów na dysku (packwiz trzyma tylko metadane), więc zawartości nie da się policzyć.</value></data>
+  <data name="StatMods" xml:space="preserve"><value>Mody</value></data>
+  <data name="StatBlocks" xml:space="preserve"><value>Bloki</value></data>
+  <data name="StatItems" xml:space="preserve"><value>Przedmioty</value></data>
+  <data name="StatEntities" xml:space="preserve"><value>Moby i istoty</value></data>
+  <data name="StatStructures" xml:space="preserve"><value>Struktury</value></data>
+  <data name="StatBiomes" xml:space="preserve"><value>Biomy</value></data>
+  <data name="StatRecipes" xml:space="preserve"><value>Receptury</value></data>
+  <data name="ColTotal" xml:space="preserve"><value>Razem</value></data>
+  <data name="SideClient" xml:space="preserve"><value>Tylko klient</value></data>
+  <data name="SideServer" xml:space="preserve"><value>Tylko serwer</value></data>
+  <data name="SideBoth" xml:space="preserve"><value>Klient i serwer</value></data>
+  <data name="Category_adventure" xml:space="preserve"><value>Przygoda</value></data>
+  <data name="Category_cursed" xml:space="preserve"><value>Dziwactwa</value></data>
+  <data name="Category_decoration" xml:space="preserve"><value>Dekoracje</value></data>
+  <data name="Category_economy" xml:space="preserve"><value>Ekonomia</value></data>
+  <data name="Category_equipment" xml:space="preserve"><value>Ekwipunek</value></data>
+  <data name="Category_food" xml:space="preserve"><value>Jedzenie</value></data>
+  <data name="Category_game_mechanics" xml:space="preserve"><value>Mechanika gry</value></data>
+  <data name="Category_library" xml:space="preserve"><value>Biblioteki</value></data>
+  <data name="Category_magic" xml:space="preserve"><value>Magia</value></data>
+  <data name="Category_management" xml:space="preserve"><value>Zarządzanie</value></data>
+  <data name="Category_minigame" xml:space="preserve"><value>Minigry</value></data>
+  <data name="Category_mobs" xml:space="preserve"><value>Moby</value></data>
+  <data name="Category_optimization" xml:space="preserve"><value>Optymalizacja</value></data>
+  <data name="Category_social" xml:space="preserve"><value>Społeczność</value></data>
+  <data name="Category_storage" xml:space="preserve"><value>Przechowywanie</value></data>
+  <data name="Category_technology" xml:space="preserve"><value>Technologia</value></data>
+  <data name="Category_transportation" xml:space="preserve"><value>Transport</value></data>
+  <data name="Category_utility" xml:space="preserve"><value>Narzędzia</value></data>
+  <data name="Category_worldgen" xml:space="preserve"><value>Generowanie świata</value></data>
   <data name="NoFileSelected" xml:space="preserve"><value>Wybierz plik z listy, aby go podejrzeć lub edytować.</value></data>
   <data name="FormatFolder" xml:space="preserve"><value>folder instancji</value></data>
   <data name="FormatPackwiz" xml:space="preserve"><value>packwiz</value></data>

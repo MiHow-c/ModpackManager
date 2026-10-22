@@ -21,7 +21,10 @@ public sealed record ModrinthVersion(
     public ModrinthFile? PrimaryFile => Files.FirstOrDefault(f => f.Primary) ?? Files.FirstOrDefault();
 }
 
-public sealed record ModrinthProject(string Id, string Slug, string Title, string ProjectType);
+/// <summary>ClientSide/ServerSide: required, optional, unsupported or unknown.</summary>
+public sealed record ModrinthProject(
+    string Id, string Slug, string Title, string ProjectType,
+    List<string>? Categories = null, string? ClientSide = null, string? ServerSide = null);
 
 public sealed record ModrinthSearchHit(string ProjectId, string Slug, string Title, string? Description, string? Author, long Downloads);
 

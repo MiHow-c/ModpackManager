@@ -12,7 +12,7 @@ sealed class FakeModrinth
 
     public List<Version> Versions { get; } = [];
 
-    public Dictionary<string, (string Slug, string Title, string Type)> Projects { get; } = [];
+    public Dictionary<string, (string Slug, string Title, string Type, string[] Categories, string ClientSide, string ServerSide)> Projects { get; } = [];
 
     /// <summary>When set, the CDN serves different bytes than the published hash.</summary>
     public bool CorruptDownloads { get; set; }
@@ -24,9 +24,10 @@ sealed class FakeModrinth
     public FakeModrinth() => Http = new FakeHttp(Respond);
 
     /// <summary>Adds a project version backed by a tiny Fabric jar.</summary>
-    public Version Add(string projectId, string versionId, string filename, string slug, string type = "mod", string environment = "client_and_server")
+    public Version Add(string projectId, string versionId, string filename, string slug, string type = "mod", string environment = "client_and_server",
+        string[]? categories = null, string clientSide = "required", string serverSide = "required")
     {
-        Projects[projectId] = (slug, $"{slug} title", type);
+        Projects[projectId] = (slug, $"{slug} title", type, categories ?? [], clientSide, serverSide);
         var version = new Version(projectId, versionId, filename,
             TestPacks.JarBytes(("fabric.mod.json", TestPacks.FabricJson(slug, versionId))), environment);
         Versions.Add(version);
@@ -54,7 +55,8 @@ sealed class FakeModrinth
             ["v2", "versions"] => FakeHttp.Json(JsonSerializer.Serialize(Ids(uri).Select(id => Versions.FirstOrDefault(v => v.Id == id))
                 .OfType<Version>().Select(VersionJson))),
             ["v2", "projects"] => FakeHttp.Json(JsonSerializer.Serialize(Ids(uri).Where(Projects.ContainsKey)
-                .Select(id => new { id, slug = Projects[id].Slug, title = Projects[id].Title, project_type = Projects[id].Type }))),
+                .Select(id => new { id, slug = Projects[id].Slug, title = Projects[id].Title, project_type = Projects[id].Type,
+                    categories = Projects[id].Categories, client_side = Projects[id].ClientSide, server_side = Projects[id].ServerSide }))),
             ["v2", "project", var id] when Projects.TryGetValue(id, out var p) =>
                 FakeHttp.Json(JsonSerializer.Serialize(new { id, slug = p.Slug, title = p.Title, project_type = p.Type })),
             _ => new HttpResponseMessage(HttpStatusCode.NotFound),
