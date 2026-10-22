@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="AppTitle" xml:space="preserve"><value>Menedżer modpacków</value></data>
+  <data name="OpenPack" xml:space="preserve"><value>Otwórz paczkę…</value></data>
+  <data name="PickFolderTitle" xml:space="preserve"><value>Wybierz folder instancji lub paczki packwiz</value></data>
+  <data name="OnlyUnknown" xml:space="preserve"><value>Tylko nieznane źródło</value></data>
+  <data name="NoPack" xml:space="preserve"><value>Otwórz folder instancji albo paczkę packwiz (folder z pack.toml).</value></data>
+  <data name="PackSummary" xml:space="preserve"><value>{0} · {1} · MC {2} · {3} {4}</value></data>
+  <data name="FormatFolder" xml:space="preserve"><value>folder instancji</value></data>
+  <data name="FormatPackwiz" xml:space="preserve"><value>packwiz</value></data>
+  <data name="NotSet" xml:space="preserve"><value>—</value></data>
+  <data name="ColName" xml:space="preserve"><value>Nazwa</value></data>
+  <data name="ColVersion" xml:space="preserve"><value>Wersja</value></data>
+  <data name="ColLoader" xml:space="preserve"><value>Loader</value></data>
+  <data name="ColSource" xml:space="preserve"><value>Źródło</value></data>
+  <data name="ColStatus" xml:space="preserve"><value>Status identyfikacji</value></data>
+  <data name="ColPath" xml:space="preserve"><value>Plik</value></data>
+  <data name="StatusUnknown" xml:space="preserve"><value>Nieznane</value></data>
+  <data name="StatusModrinth" xml:space="preserve"><value>Modrinth</value></data>
+  <data name="StatusCurseForge" xml:space="preserve"><value>CurseForge</value></data>
+  <data name="StatusUrl" xml:space="preserve"><value>Link z metadanych</value></data>
+  <data name="StatusManual" xml:space="preserve"><value>Przypisane ręcznie</value></data>
+  <data name="Scanning" xml:space="preserve"><value>Skanowanie paczki…</value></data>
+  <data name="Summary" xml:space="preserve"><value>Pliki: {0}, nieznane źródło: {1}.</value></data>
+  <data name="SourceFailed" xml:space="preserve"><value>Nie udało się odpytać {0} — sprawdź połączenie, wyniki mogą być niepełne.</value></data>
+  <data name="ScanFailed" xml:space="preserve"><value>Nie udało się wczytać paczki: {0}</value></data>
+  <data name="ManualLinkPlaceholder" xml:space="preserve"><value>https://… link do źródła zaznaczonego pliku</value></data>
+  <data name="AssignLink" xml:space="preserve"><value>Przypisz link</value></data>
+  <data name="InvalidLink" xml:space="preserve"><value>Podaj pełny adres zaczynający się od http:// lub https://.</value></data>
+  <data name="Done" xml:space="preserve"><value>Gotowe.</value></data>
+  <data name="TabMods" xml:space="preserve"><value>Mody</value></data>
+  <data name="TabFiles" xml:space="preserve"><value>Pliki i configi</value></data>
+  <data name="TabSettings" xml:space="preserve"><value>Ustawienia paczki</value></data>
+  <data name="RemoveMod" xml:space="preserve"><value>Usuń zaznaczony</value></data>
+  <data name="LoadVersions" xml:space="preserve"><value>Pokaż wersje</value></data>
+  <data name="ChangeVersion" xml:space="preserve"><value>Zmień na wybraną wersję</value></data>
+  <data name="SearchHeader" xml:space="preserve"><value>Dodaj z Modrinth (filtr: wersja MC i loader paczki)</value></data>
+  <data name="SearchPlaceholder" xml:space="preserve"><value>Szukaj moda…</value></data>
+  <data name="Search" xml:space="preserve"><value>Szukaj</value></data>
+  <data name="AddSelectedVersion" xml:space="preserve"><value>Dodaj wybraną wersję</value></data>
+  <data name="VersionPlaceholder" xml:space="preserve"><value>Wybierz wersję</value></data>
+  <data name="SaveFile" xml:space="preserve"><value>Zapisz</value></data>
+  <data name="DeleteFile" xml:space="preserve"><value>Usuń plik</value></data>
+  <data name="AddFile" xml:space="preserve"><value>Dodaj plik…</value></data>
+  <data name="TargetFolder" xml:space="preserve"><value>Folder docelowy w paczce:</value></data>
+  <data name="PickFileTitle" xml:space="preserve"><value>Wybierz plik do dodania</value></data>
+  <data name="NotEditable" xml:space="preserve"><value>Tego pliku nie można edytować tutaj (format binarny albo plik opisany tylko metadanymi packwiz). Możesz go usunąć.</value></data>
+  <data name="McVersion" xml:space="preserve"><value>Wersja Minecrafta</value></data>
+  <data name="LoaderLabel" xml:space="preserve"><value>Loader</value></data>
+  <data name="LoaderVersion" xml:space="preserve"><value>Wersja loadera</value></data>
+  <data name="SaveSettings" xml:space="preserve"><value>Zapisz ustawienia</value></data>
+  <data name="SettingsHint" xml:space="preserve"><value>Packwiz: zapis do pack.toml. Folder instancji: zapis w ustawieniach aplikacji (nadpisuje mmc-pack.json launchera, którego aplikacja nie zmienia).</value></data>
+  <data name="ModVersionsName" xml:space="preserve"><value>Wersje zaznaczonego moda</value></data>
+  <data name="HitVersionsName" xml:space="preserve"><value>Wersje do dodania</value></data>
+  <data name="ModsTableName" xml:space="preserve"><value>Lista modów</value></data>
+  <data name="SearchResultsName" xml:space="preserve"><value>Wyniki wyszukiwania</value></data>
+  <data name="FilesListName" xml:space="preserve"><value>Pliki paczki</value></data>
+  <data name="EditorName" xml:space="preserve"><value>Edytor pliku</value></data>
+  <data name="Refresh" xml:space="preserve"><value>Odśwież</value></data>
+  <data name="TabCollab" xml:space="preserve"><value>Współpraca</value></data>
+  <data name="HostHeader" xml:space="preserve"><value>Hostowanie paczki (Twórca)</value></data>
+  <data name="HostPort" xml:space="preserve"><value>Port lokalny (cel tunelu TCP w playit.gg)</value></data>
+  <data name="PublicAddress" xml:space="preserve"><value>Publiczny adres tunelu playit (host:port)</value></data>
+  <data name="StartHost" xml:space="preserve"><value>Uruchom hosta</value></data>
+  <data name="StopHost" xml:space="preserve"><value>Zatrzymaj hosta</value></data>
+  <data name="HostRunning" xml:space="preserve"><value>Host działa na 127.0.0.1:{0}. Utwórz w playit.gg tunel TCP na ten port. Odcisk certyfikatu: {1}</value></data>
+  <data name="HostStopped" xml:space="preserve"><value>Host nie działa.</value></data>
+  <data name="CreateInvite" xml:space="preserve"><value>Utwórz zaproszenie</value></data>
+  <data name="InviteCodeLabel" xml:space="preserve"><value>Kod zaproszenia</value></data>
+  <data name="InviteHint" xml:space="preserve"><value>Kod jest jednorazowy i ważny 24 godziny. Prześlij go osobie, która ma dołączyć.</value></data>
+  <data name="InviteNeedsAddress" xml:space="preserve"><value>Najpierw podaj publiczny adres tunelu playit w formacie host:port.</value></data>
+  <data name="UsersHeader" xml:space="preserve"><value>Użytkownicy i uprawnienia (nowy użytkownik ma tylko podgląd)</value></data>
+  <data name="Revoke" xml:space="preserve"><value>Odbierz dostęp</value></data>
+  <data name="PermModsAdd" xml:space="preserve"><value>dodawanie modów</value></data>
+  <data name="PermModsRemove" xml:space="preserve"><value>usuwanie modów</value></data>
+  <data name="PermModsUpdate" xml:space="preserve"><value>zmiana wersji modów</value></data>
+  <data name="PermConfigsEdit" xml:space="preserve"><value>edycja configów</value></data>
+  <data name="PermFilesManage" xml:space="preserve"><value>pozostałe pliki</value></data>
+  <data name="PermPackSettings" xml:space="preserve"><value>ustawienia paczki</value></data>
+  <data name="ClientHeader" xml:space="preserve"><value>Dołączanie do hosta</value></data>
+  <data name="YourName" xml:space="preserve"><value>Twoja nazwa</value></data>
+  <data name="Join" xml:space="preserve"><value>Dołącz</value></data>
+  <data name="Reconnect" xml:space="preserve"><value>Połącz ponownie</value></data>
+  <data name="Disconnect" xml:space="preserve"><value>Rozłącz</value></data>
+  <data name="Connected" xml:space="preserve"><value>Połączono z {0} jako {1}. Uprawnienia: {2}. Zmiany w paczce trafiają teraz do hosta.</value></data>
+  <data name="NotConnected" xml:space="preserve"><value>Nie połączono. Otwarta paczka to Twoja lokalna kopia.</value></data>
+  <data name="NoPermissions" xml:space="preserve"><value>tylko podgląd i pobieranie zmian</value></data>
+  <data name="InvalidInvite" xml:space="preserve"><value>to nie jest poprawny kod zaproszenia</value></data>
+  <data name="Compare" xml:space="preserve"><value>Porównaj z hostem</value></data>
+  <data name="Pull" xml:space="preserve"><value>Pobierz zmiany</value></data>
+  <data name="ColKind" xml:space="preserve"><value>Różnica</value></data>
+  <data name="ColHost" xml:space="preserve"><value>Host</value></data>
+  <data name="ColLocal" xml:space="preserve"><value>Lokalnie</value></data>
+  <data name="DiffMissing" xml:space="preserve"><value>Brakuje</value></data>
+  <data name="DiffExtra" xml:space="preserve"><value>Nadmiarowy</value></data>
+  <data name="DiffDifferentVersion" xml:space="preserve"><value>Inna wersja</value></data>
+  <data name="DiffConfigChanged" xml:space="preserve"><value>Zmieniony plik</value></data>
+  <data name="DiffEmpty" xml:space="preserve"><value>Lokalna kopia jest zgodna z hostem.</value></data>
+  <data name="DiffSummary" xml:space="preserve"><value>Różnic: {0} (rewizja hosta: {1}). „Pobierz zmiany” ujednolici lokalną kopię; nadmiarowe pliki trafią do kopii zapasowej.</value></data>
+  <data name="Pulled" xml:space="preserve"><value>Pobrano zmiany: {0}.</value></data>
+  <data name="PullSkipped" xml:space="preserve"><value>Pominięto (pobierz ręcznie albo sprawdź host): {0}</value></data>
+  <data name="ErrorUnauthorized" xml:space="preserve"><value>Host odrzucił dostęp: kod lub token jest nieważny albo dostęp został odebrany. {0}</value></data>
+  <data name="ErrorForbidden" xml:space="preserve"><value>Brak uprawnienia {0} — poproś Twórcę o jego nadanie.</value></data>
+  <data name="ErrorStaleRevision" xml:space="preserve"><value>Paczka zmieniła się w międzyczasie (rewizja {0}). Pobierz zmiany i spróbuj ponownie.</value></data>
+  <data name="ErrorCertificate" xml:space="preserve"><value>Certyfikat hosta nie zgadza się z kodem zaproszenia — połączenie przerwane.</value></data>
+  <data name="CollabName" xml:space="preserve"><value>Różnice względem hosta</value></data>
+  <data name="JoinCodeName" xml:space="preserve"><value>Kod zaproszenia do wpisania</value></data>
+  <data name="RefreshUsers" xml:space="preserve"><value>Odśwież listę użytkowników</value></data>
+  <data name="ErrorInvalidPath" xml:space="preserve"><value>Niedozwolona ścieżka: {0}</value></data>
+  <data name="ErrorInvalidValue" xml:space="preserve"><value>Nieprawidłowa wartość: {0}</value></data>
+  <data name="ErrorNotFound" xml:space="preserve"><value>Nie znaleziono: {0}</value></data>
+  <data name="ErrorSyntaxError" xml:space="preserve"><value>Błąd składni, plik nie został zapisany: {0}</value></data>
+  <data name="ErrorAlreadyInstalled" xml:space="preserve"><value>{0} jest już w paczce — użyj zmiany wersji.</value></data>
+  <data name="ErrorWrongProject" xml:space="preserve"><value>Tej wersji nie można użyć dla tego pliku (inny projekt albo plik nie pochodzi z Modrinth): {0}</value></data>
+  <data name="ErrorNotAMod" xml:space="preserve"><value>{0} nie jest modem.</value></data>
+  <data name="ErrorNoFile" xml:space="preserve"><value>Ta wersja nie ma pliku do pobrania: {0}</value></data>
+  <data name="ErrorHashMismatch" xml:space="preserve"><value>Pobrany plik ma inny hash niż podaje Modrinth, nic nie zapisano: {0}</value></data>
+  <data name="ErrorNetwork" xml:space="preserve"><value>Błąd sieci: {0}</value></data>
+  <data name="ErrorUnexpected" xml:space="preserve"><value>Nieoczekiwany błąd: {0}</value></data>
+</root>

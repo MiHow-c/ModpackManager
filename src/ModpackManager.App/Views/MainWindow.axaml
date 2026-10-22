@@ -1,0 +1,204 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:ModpackManager.App.ViewModels"
+        xmlns:res="using:ModpackManager.App.Resources"
+        xmlns:src="using:ModpackManager.Core.Sources"
+        x:Class="ModpackManager.App.Views.MainWindow"
+        x:DataType="vm:MainViewModel"
+        Title="{x:Static res:Strings.AppTitle}"
+        Width="1280" Height="760">
+    <DockPanel Margin="12">
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Spacing="16" Margin="0,0,0,8">
+            <Button Content="{x:Static res:Strings.OpenPack}" Click="OnOpenClick" IsEnabled="{Binding !IsBusy}" />
+            <Button Content="{x:Static res:Strings.Refresh}" Command="{Binding RefreshCommand}" IsEnabled="{Binding HasPack}" />
+            <TextBlock Text="{Binding PackSummary}" VerticalAlignment="Center" />
+        </StackPanel>
+
+        <TextBlock DockPanel.Dock="Bottom" Margin="0,8,0,0" Text="{Binding Status}" TextWrapping="Wrap" />
+
+        <Panel IsEnabled="{Binding HasPack}">
+            <TabControl IsEnabled="{Binding !IsBusy}">
+                <TabItem Header="{x:Static res:Strings.TabMods}">
+                    <Grid ColumnDefinitions="*,12,380">
+                        <DockPanel>
+                            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Spacing="8" Margin="0,8">
+                                <CheckBox Content="{x:Static res:Strings.OnlyUnknown}" IsChecked="{Binding OnlyUnknown}" />
+                                <Button Content="{x:Static res:Strings.RemoveMod}" Command="{Binding RemoveModCommand}" />
+                                <Button Content="{x:Static res:Strings.LoadVersions}" Command="{Binding LoadModVersionsCommand}" />
+                                <ComboBox ItemsSource="{Binding ModVersions}" SelectedItem="{Binding SelectedModVersion}"
+                                          AutomationProperties.Name="{x:Static res:Strings.ModVersionsName}"
+                                          PlaceholderText="{x:Static res:Strings.VersionPlaceholder}" MinWidth="200" />
+                                <Button Content="{x:Static res:Strings.ChangeVersion}" Command="{Binding UpdateModCommand}" />
+                            </StackPanel>
+                            <Grid DockPanel.Dock="Bottom" ColumnDefinitions="*,Auto" Margin="0,8,0,0">
+                                <TextBox Text="{Binding ManualLink}" PlaceholderText="{x:Static res:Strings.ManualLinkPlaceholder}"
+                                         AutomationProperties.Name="{x:Static res:Strings.ManualLinkPlaceholder}" />
+                                <Button Grid.Column="1" Margin="8,0,0,0" Content="{x:Static res:Strings.AssignLink}" Command="{Binding AssignLinkCommand}" />
+                            </Grid>
+                            <DataGrid ItemsSource="{Binding Rows}" SelectedItem="{Binding SelectedRow}"
+                                      AutomationProperties.Name="{x:Static res:Strings.ModsTableName}"
+                                      IsReadOnly="True" AutoGenerateColumns="False" CanUserSortColumns="True" GridLinesVisibility="Horizontal">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn x:DataType="vm:EntryRow" Header="{x:Static res:Strings.ColName}" Binding="{Binding Name}" Width="2*" />
+                                    <DataGridTextColumn x:DataType="vm:EntryRow" Header="{x:Static res:Strings.ColVersion}" Binding="{Binding Version}" Width="*" />
+                                    <DataGridTextColumn x:DataType="vm:EntryRow" Header="{x:Static res:Strings.ColLoader}" Binding="{Binding Loaders}" Width="Auto" />
+                                    <DataGridTemplateColumn Header="{x:Static res:Strings.ColSource}" Width="Auto">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate x:DataType="vm:EntryRow">
+                                                <HyperlinkButton Content="{Binding LinkText}" NavigateUri="{Binding Link}"
+                                                                 IsVisible="{Binding Link, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTextColumn x:DataType="vm:EntryRow" Header="{x:Static res:Strings.ColStatus}" Binding="{Binding Status}" Width="Auto" />
+                                    <DataGridTextColumn x:DataType="vm:EntryRow" Header="{x:Static res:Strings.ColPath}" Binding="{Binding Path}" Width="2*" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </DockPanel>
+
+                        <DockPanel Grid.Column="2" Margin="0,8,0,0">
+                            <TextBlock DockPanel.Dock="Top" Text="{x:Static res:Strings.SearchHeader}" FontWeight="SemiBold" Margin="0,0,0,8" TextWrapping="Wrap" />
+                            <Grid DockPanel.Dock="Top" ColumnDefinitions="*,Auto" Margin="0,0,0,8">
+                                <TextBox Text="{Binding SearchQuery}" PlaceholderText="{x:Static res:Strings.SearchPlaceholder}"
+                                         AutomationProperties.Name="{x:Static res:Strings.SearchPlaceholder}" />
+                                <Button Grid.Column="1" Margin="8,0,0,0" Content="{x:Static res:Strings.Search}" Command="{Binding SearchCommand}" IsDefault="True" />
+                            </Grid>
+                            <Button DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" Margin="0,8,0,0"
+                                    Content="{x:Static res:Strings.AddSelectedVersion}" Command="{Binding AddModCommand}" />
+                            <ComboBox DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" Margin="0,8,0,0"
+                                      ItemsSource="{Binding HitVersions}" SelectedItem="{Binding SelectedHitVersion}"
+                                      AutomationProperties.Name="{x:Static res:Strings.HitVersionsName}"
+                                      PlaceholderText="{x:Static res:Strings.VersionPlaceholder}" />
+                            <ListBox ItemsSource="{Binding SearchHits}" SelectedItem="{Binding SelectedHit}"
+                                     AutomationProperties.Name="{x:Static res:Strings.SearchResultsName}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate x:DataType="src:ModrinthSearchHit">
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding Title}" FontWeight="SemiBold" />
+                                            <TextBlock Text="{Binding Description}" TextWrapping="Wrap" Opacity="0.7" MaxHeight="40" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </DockPanel>
+                    </Grid>
+                </TabItem>
+
+                <TabItem Header="{x:Static res:Strings.TabFiles}">
+                    <Grid ColumnDefinitions="360,12,*" Margin="0,8,0,0">
+                        <DockPanel>
+                            <StackPanel DockPanel.Dock="Bottom" Spacing="8" Margin="0,8,0,0">
+                                <TextBlock Text="{x:Static res:Strings.TargetFolder}" />
+                                <TextBox Text="{Binding NewFileFolder}" AutomationProperties.Name="{x:Static res:Strings.TargetFolder}" />
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <Button Content="{x:Static res:Strings.AddFile}" Click="OnAddFileClick" />
+                                    <Button Content="{x:Static res:Strings.DeleteFile}" Command="{Binding DeleteSelectedFileCommand}" />
+                                </StackPanel>
+                            </StackPanel>
+                            <ListBox ItemsSource="{Binding Files}" SelectedItem="{Binding SelectedFile}"
+                                     AutomationProperties.Name="{x:Static res:Strings.FilesListName}" />
+                        </DockPanel>
+                        <DockPanel Grid.Column="2">
+                            <Button DockPanel.Dock="Bottom" HorizontalAlignment="Right" Margin="0,8,0,0"
+                                    Content="{x:Static res:Strings.SaveFile}" Command="{Binding SaveFileCommand}" />
+                            <TextBox Text="{Binding EditorText}" IsReadOnly="{Binding !CanEditFile}" AcceptsReturn="True" AcceptsTab="True"
+                                     AutomationProperties.Name="{x:Static res:Strings.EditorName}"
+                                     FontFamily="Cascadia Mono,Consolas,DejaVu Sans Mono,monospace" TextWrapping="NoWrap" />
+                        </DockPanel>
+                    </Grid>
+                </TabItem>
+
+                <TabItem Header="{x:Static res:Strings.TabSettings}">
+                    <StackPanel Spacing="8" Margin="0,12,0,0" MaxWidth="480" HorizontalAlignment="Left">
+                        <TextBlock Text="{x:Static res:Strings.McVersion}" />
+                        <TextBox Text="{Binding SettingsMcVersion}" AutomationProperties.Name="{x:Static res:Strings.McVersion}" />
+                        <TextBlock Text="{x:Static res:Strings.LoaderLabel}" />
+                        <ComboBox ItemsSource="{Binding LoaderChoices}" SelectedItem="{Binding SettingsLoader}" HorizontalAlignment="Stretch"
+                                  AutomationProperties.Name="{x:Static res:Strings.LoaderLabel}" />
+                        <TextBlock Text="{x:Static res:Strings.LoaderVersion}" />
+                        <TextBox Text="{Binding SettingsLoaderVersion}" AutomationProperties.Name="{x:Static res:Strings.LoaderVersion}" />
+                        <Button Content="{x:Static res:Strings.SaveSettings}" Command="{Binding SaveSettingsCommand}" />
+                        <TextBlock Text="{x:Static res:Strings.SettingsHint}" TextWrapping="Wrap" Opacity="0.7" />
+                    </StackPanel>
+                </TabItem>
+
+                <TabItem Header="{x:Static res:Strings.TabCollab}">
+                    <Grid ColumnDefinitions="*,24,*" Margin="0,12,0,0">
+                        <ScrollViewer>
+                            <StackPanel Spacing="8">
+                                <TextBlock Text="{x:Static res:Strings.HostHeader}" FontWeight="SemiBold" />
+                                <TextBlock Text="{x:Static res:Strings.HostPort}" />
+                                <TextBox Text="{Binding HostPort}" AutomationProperties.Name="{x:Static res:Strings.HostPort}" />
+                                <TextBlock Text="{x:Static res:Strings.PublicAddress}" />
+                                <TextBox Text="{Binding PublicAddress}" AutomationProperties.Name="{x:Static res:Strings.PublicAddress}" />
+                                <StackPanel Orientation="Horizontal" Spacing="8">
+                                    <Button Content="{x:Static res:Strings.StartHost}" Command="{Binding StartHostCommand}" />
+                                    <Button Content="{x:Static res:Strings.StopHost}" Command="{Binding StopHostCommand}" />
+                                    <Button Content="{x:Static res:Strings.CreateInvite}" Command="{Binding CreateInviteCommand}" />
+                                </StackPanel>
+                                <SelectableTextBlock Text="{Binding HostInfo}" TextWrapping="Wrap" />
+                                <TextBlock Text="{x:Static res:Strings.InviteCodeLabel}" />
+                                <TextBox Text="{Binding InviteText}" IsReadOnly="True" TextWrapping="Wrap"
+                                         AutomationProperties.Name="{x:Static res:Strings.InviteCodeLabel}" />
+                                <DockPanel Margin="0,8,0,0">
+                                    <Button DockPanel.Dock="Right" Content="{x:Static res:Strings.Refresh}" Command="{Binding RefreshUsersCommand}"
+                                            AutomationProperties.Name="{x:Static res:Strings.RefreshUsers}" />
+                                    <TextBlock Text="{x:Static res:Strings.UsersHeader}" FontWeight="SemiBold" VerticalAlignment="Center" TextWrapping="Wrap" />
+                                </DockPanel>
+                                <ItemsControl ItemsSource="{Binding Users}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate x:DataType="vm:UserRow">
+                                            <Border BorderBrush="Gray" BorderThickness="0,0,0,1" Padding="0,6">
+                                                <StackPanel Spacing="4">
+                                                    <DockPanel>
+                                                        <Button DockPanel.Dock="Right" Content="{x:Static res:Strings.Revoke}" Command="{Binding RevokeCommand}" />
+                                                        <TextBlock Text="{Binding Name}" FontWeight="SemiBold" VerticalAlignment="Center" />
+                                                    </DockPanel>
+                                                    <WrapPanel>
+                                                        <CheckBox Content="{x:Static res:Strings.PermModsAdd}" IsChecked="{Binding ModsAdd}" Margin="0,0,12,0" />
+                                                        <CheckBox Content="{x:Static res:Strings.PermModsRemove}" IsChecked="{Binding ModsRemove}" Margin="0,0,12,0" />
+                                                        <CheckBox Content="{x:Static res:Strings.PermModsUpdate}" IsChecked="{Binding ModsUpdate}" Margin="0,0,12,0" />
+                                                        <CheckBox Content="{x:Static res:Strings.PermConfigsEdit}" IsChecked="{Binding ConfigsEdit}" Margin="0,0,12,0" />
+                                                        <CheckBox Content="{x:Static res:Strings.PermFilesManage}" IsChecked="{Binding FilesManage}" Margin="0,0,12,0" />
+                                                        <CheckBox Content="{x:Static res:Strings.PermPackSettings}" IsChecked="{Binding PackSettings}" />
+                                                    </WrapPanel>
+                                                </StackPanel>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </ScrollViewer>
+
+                        <DockPanel Grid.Column="2">
+                            <StackPanel DockPanel.Dock="Top" Spacing="8">
+                                <TextBlock Text="{x:Static res:Strings.ClientHeader}" FontWeight="SemiBold" />
+                                <TextBlock Text="{x:Static res:Strings.InviteCodeLabel}" />
+                                <TextBox Text="{Binding JoinCode}" TextWrapping="Wrap" AutomationProperties.Name="{x:Static res:Strings.JoinCodeName}" />
+                                <TextBlock Text="{x:Static res:Strings.YourName}" />
+                                <TextBox Text="{Binding UserName}" AutomationProperties.Name="{x:Static res:Strings.YourName}" />
+                                <WrapPanel>
+                                    <Button Content="{x:Static res:Strings.Join}" Command="{Binding JoinCommand}" Margin="0,0,8,8" />
+                                    <Button Content="{x:Static res:Strings.Reconnect}" Command="{Binding ReconnectCommand}" Margin="0,0,8,8" />
+                                    <Button Content="{x:Static res:Strings.Disconnect}" Command="{Binding DisconnectCommand}" Margin="0,0,8,8" />
+                                    <Button Content="{x:Static res:Strings.Compare}" Command="{Binding CompareCommand}" Margin="0,0,8,8" />
+                                    <Button Content="{x:Static res:Strings.Pull}" Command="{Binding PullCommand}" Margin="0,0,8,8" />
+                                </WrapPanel>
+                                <TextBlock Text="{Binding ConnectionInfo}" TextWrapping="Wrap" />
+                            </StackPanel>
+                            <DataGrid ItemsSource="{Binding DiffRows}" IsReadOnly="True" AutoGenerateColumns="False" Margin="0,8,0,0"
+                                      GridLinesVisibility="Horizontal" AutomationProperties.Name="{x:Static res:Strings.CollabName}">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn x:DataType="vm:DiffRow" Header="{x:Static res:Strings.ColKind}" Binding="{Binding Kind}" Width="Auto" />
+                                    <DataGridTextColumn x:DataType="vm:DiffRow" Header="{x:Static res:Strings.ColPath}" Binding="{Binding Path}" Width="2*" />
+                                    <DataGridTextColumn x:DataType="vm:DiffRow" Header="{x:Static res:Strings.ColHost}" Binding="{Binding HostVersion}" Width="*" />
+                                    <DataGridTextColumn x:DataType="vm:DiffRow" Header="{x:Static res:Strings.ColLocal}" Binding="{Binding LocalVersion}" Width="*" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </DockPanel>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </Panel>
+    </DockPanel>
+</Window>

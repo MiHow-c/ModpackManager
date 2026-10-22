@@ -1,0 +1,9 @@
+bin/
+obj/
+.vs/
+.idea/
+*.user
+# runtime data written by tests and local smoke runs
+tests/**/TestData/
+.localdata/
+publish/
